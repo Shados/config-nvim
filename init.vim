@@ -16,6 +16,9 @@
 " }}}
 
 " Plugins =========================================== {{{
+  " Load locally-managed plugins
+  set rtp+=~/.config/nvim/local/*
+
   " We're using vim-plug for plugin management, as async updates and flexible
   " hooks are both very useful
   call plug#begin("~/.config/nvim/plugged")
@@ -28,21 +31,22 @@
     "Plug 'ryanoasis/vim-devicons' " Adds language icons to things like nerdtree and lightline - need patched font: https://github.com/ryanoasis/nerd-fonts
     Plug 'fholgado/minibufexpl.vim' " Gives a statusline with buffers on it if you have any hidden buffers
     Plug 'haya14busa/incsearch.vim' " Incremental highlight on incsearch, including of partial regex matches
+    Plug 'Yggdroot/indentLine' " Visually display indent levels
 
   " Language support and syntax highlighting
     Plug 'benekastah/neomake' " Async syntax and error checking 
     Plug 'keith/tmux.vim'
-    Plug 'pangloss/vim-javascript' | Plug 'othree/javascript-libraries-syntax.vim'
+    Plug 'othree/yajs.vim' | Plug 'othree/javascript-libraries-syntax.vim'
     Plug 'tpope/vim-markdown' | Plug 'jtratner/vim-flavored-markdown'
-    Plug 'MarcWeber/vim-addon-mw-utils' | Plug 'MarcWeber/vim-addon-actions' | Plug 'MarcWeber/vim-addon-completion' | Plug 'MarcWeber/vim-addon-goto-thing-at-cursor' | Plug 'MarcWeber/vim-addon-errorformats' | Plug 'MarcWeber/vim-addon-nix' " Nix error checking
+    "Plug 'tomtom/tlib_vim' | Plug 'MarcWeber/vim-addon-mw-utils' | Plug 'MarcWeber/vim-addon-actions' | Plug 'MarcWeber/vim-addon-completion' | Plug 'MarcWeber/vim-addon-goto-thing-at-cursor' | Plug 'MarcWeber/vim-addon-errorformats' | Plug 'MarcWeber/vim-addon-nix' " Nix error checking -- currently broken under neovim, not sure why
     Plug 'LnL7/vim-nix' " Nix syntax highlighting
     Plug 'Matt-Deacalion/vim-systemd-syntax'
     Plug 'RobertAudi/fish.vim'
     Plug 'vim-erlang/vim-erlang-runtime' | Plug 'vim-erlang/vim-erlang-compiler' | Plug 'vim-erlang/vim-erlang-omnicomplete' | Plug 'vim-erlang/vim-erlang-tags'
     Plug 'elixir-lang/vim-elixir'
     Plug 'rust-lang/rust.vim'
-    " TODO: nginx, makers for elixir/rust/bash/fish/python and whatever lang I'm devving
-    " latex live preview
+    Plug 'xuhdev/vim-latex-live-preview'
+    " TODO: nginx
 
   " Project management
     Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'} | Plug 'jistr/vim-nerdtree-tabs'
@@ -209,6 +213,8 @@
     set guioptions-=r
     set guioptions-=L
     let g:session_directory = '~/.local/share/nvim/sessions'
+    let g:livepreview_previewer = 'zathura' " Zathura is pretty much ideal for this purpose, in my experience
+    let g:nix_maintainer = "arobyn"
 " }}}
 
 " Key binds/mappings ====================================== {{{
@@ -278,10 +284,9 @@
 
   " Theming
     syntax enable
-    set background=dark
-    "colorscheme solarized
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
     colorscheme OceanicNext
+    set background=dark
 
   " Search
     set incsearch " Incremental searching
@@ -336,6 +341,8 @@
     " selected match is in)
 
     " TODO: SyntaxRange pattern-matched filetype
+    "
+    " TODO: Configure makers for automake
 
     " File-patterns to ignore for wildcard matching on tab completion
       set wildignore=*.o,*.obj,*~ 
