@@ -46,11 +46,11 @@
     Plug 'elixir-lang/vim-elixir'
     Plug 'rust-lang/rust.vim'
     Plug 'xuhdev/vim-latex-live-preview'
-    " TODO: nginx
 
   " Project management
     Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'} | Plug 'jistr/vim-nerdtree-tabs'
     Plug 'ctrlpvim/ctrlp.vim', {'on': 'CtrlP'} " Full path fuzzy file/buffer/mru/tag/..., hit <C-p> obviously
+    Plug 'vim-scripts/TaskList.vim' " Display FIXME/TODO/etc. in handy browseable list pane, bound to <Leader>t, then q to cancel, e to quit browsing but leave tasklist up, <CR> to quit and place cursor on selected task
 
   " Textobjects
     Plug 'wellle/targets.vim' " Upgrades many of vim's inbuilt textobjects and adds some very useful new ones, like a, and i, for working with comma-separated lists
@@ -270,7 +270,7 @@
   nmap <silent> <Leader>qc :cclose<CR>
 
   " Quickly turn off search highlights
-  nmap <Leader>hs :nohls<CR>
+  nmap <Leader>h :nohls<CR>
 
   " Replace normal search with incsearch.vim
   map / <Plug>(incsearch-forward)
