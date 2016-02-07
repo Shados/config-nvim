@@ -269,7 +269,7 @@
   nmap <silent> <Leader>qc :cclose<CR>
 
   " Quickly turn off search highlights
-  nmap <Leader>h :nohls<CR>
+  nmap <Leader>hs :nohls<CR>
 
   " Replace normal search with incsearch.vim
   map / <Plug>(incsearch-forward)
