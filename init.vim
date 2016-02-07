@@ -31,7 +31,6 @@
     "Plug 'ryanoasis/vim-devicons' " Adds language icons to things like nerdtree and lightline - need patched font: https://github.com/ryanoasis/nerd-fonts
     Plug 'fholgado/minibufexpl.vim' " Gives a statusline with buffers on it if you have any hidden buffers
     Plug 'haya14busa/incsearch.vim' " Incremental highlight on incsearch, including of partial regex matches
-    Plug 'Yggdroot/indentLine' " Visually display indent levels
 
   " Language support and syntax highlighting
     Plug 'benekastah/neomake' " Async syntax and error checking 
@@ -283,8 +282,8 @@
   au VimResized * exe "normal! \<c-w>="
 
   " Theming
-    syntax enable
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    syntax enable
     colorscheme OceanicNext
     set background=dark
 
