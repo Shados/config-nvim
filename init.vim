@@ -57,6 +57,7 @@
     Plug 'coderifous/textobj-word-column.vim' " code-column textobject, adds ic, ac, iC and aC for working with columns, a/inner column based on word/WORD
     Plug 'kana/vim-textobj-user' | Plug 'lucapette/vim-textobj-underscore' " a_ and i_ for editing the middle of lines like foo_bar_baz, a_ includes the _'s
     Plug 'vim-scripts/argtextobj.vim' " aa = an argument, ia = inner argument, aa covers matching commas and whitespace
+    " TODO: function-based textobject
 
   " General Extra Functionality
     Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim' " Post and edit gists directly from vim
@@ -171,7 +172,7 @@
 
   " Neomake
     au BufRead,BufNewFile,BufWritePost * Neomake " Run checks on file open, creation and save
-    " Add filetype-specific makers here, as necessary
+    " Add filetype-specific makers/changes here, as necessary
 
   " vim-session
     let g:session_autoload = 'no'
@@ -218,9 +219,9 @@
 
 " Key binds/mappings ====================================== {{{
   " Fuck hitting shift
-  map ; : 
+  map ; :
   " Just in case we actually need ;, double-tap it
-  noremap ;; ; 
+  noremap ;; ;
   " We leave the : mapping in place to avoid mishaps with typing
   " :Uppercasecommands
 
@@ -321,6 +322,11 @@
   " Previous two only apply when `wrap` is off, something I occasionally need to do
   set mouse="c" " Disable mouse cursor movement
 
+  " Set netrwhist home location to prevent .netrwhist being made in
+  " .config/nvim/ -- it is data not config
+  " TODO: Fix upstream in neovim / file bug report + need standard way of
+  " getting XDG_DATA_HOME reliably
+  let g:netrw_home=$HOME . "/.local/share/nvim"
 " }}}
 
 " Advanced options ================================== {{{
