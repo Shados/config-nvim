@@ -27,7 +27,6 @@
     Plug 'skwp/vim-colors-solarized'
     Plug 'mhartington/oceanic-next'
     Plug 'itchyny/lightline.vim'
-    Plug 'pearofducks/vim-quack-lightline'
     "Plug 'ryanoasis/vim-devicons' " Adds language icons to things like nerdtree and lightline - need patched font: https://github.com/ryanoasis/nerd-fonts
     Plug 'fholgado/minibufexpl.vim' " Gives a statusline with buffers on it if you have any hidden buffers
     Plug 'haya14busa/incsearch.vim' " Incremental highlight on incsearch, including of partial regex matches
@@ -103,7 +102,7 @@
 " Plugin configuration ============================== {{{
   " Lightline {{{
     let g:lightline = {
-          \ 'colorscheme': 'quack',
+          \ 'colorscheme': 'jellybeans',
           \ 'active': {
           \   'left': [ [ 'mode', 'paste' ],
           \             [ 'fugitive'],[ 'filename' ] ]
