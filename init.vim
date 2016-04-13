@@ -321,6 +321,7 @@
   set sidescroll=1 " Minimum number of columns to scroll horiznotall when moving cursor off screen
   " Previous two only apply when `wrap` is off, something I occasionally need to do
   set mouse="c" " Disable mouse cursor movement
+  set modeline " Support modelines in files
 
   " Set netrwhist home location to prevent .netrwhist being made in
   " .config/nvim/ -- it is data not config
