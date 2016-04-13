@@ -77,7 +77,7 @@
     Plug 'tpope/vim-endwise' " Automatic closing of control flow blocks for most languages, eg. `end` inserted after `if` in Ruby
     Plug 'tpope/vim-surround' " Primarily useful for surrounding existing lines in new delimiters, quotation marks, xml tags, etc., or removing or modifying said 'surroundings'. <operation>s<surrounding-type> is most-used
     Plug 'tpope/vim-repeat' " Plugin-hookable `.`-replacement, user-transparent
-    Plug 'vim-scripts/sudo.vim' " Lets you do `:e sudo:/etc/passwd`, which is nicer+shorter than directly using the tee trick
+    Plug 'chrisbra/SudoEdit.vim' " Lets you do `:SudoWrite`/`:SudoRead`, and also launch vim with `nvim sudo:/etc/fstab`, all of which are nicer+shorter than directly using the tee trick
     Plug 'goldfeld/ctrlr.vim' " Reverse search ex command history ala Bash ctrl-r
 
   " Next-up
