@@ -282,7 +282,9 @@
   au VimResized * exe "normal! \<c-w>="
 
   " Theming
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    if !empty($TMUX)
+      let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    endif
     syntax enable
     colorscheme OceanicNext
     set background=dark
