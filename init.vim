@@ -42,6 +42,7 @@
     Plug 'RobertAudi/fish.vim'
     Plug 'vim-erlang/vim-erlang-runtime' | Plug 'vim-erlang/vim-erlang-compiler' | Plug 'vim-erlang/vim-erlang-omnicomplete' | Plug 'vim-erlang/vim-erlang-tags'
     Plug 'elixir-lang/vim-elixir'
+    Plug 'avdgaag/vim-phoenix'
     Plug 'rust-lang/rust.vim'
     Plug 'xuhdev/vim-latex-live-preview'
 
@@ -172,6 +173,25 @@
   " Neomake
     au BufRead,BufNewFile,BufWritePost * Neomake " Run checks on file open, creation and save
     " Add filetype-specific makers/changes here, as necessary
+    " TODO: selectively enable mix instead of elixir maker with presence of
+    " mix.exs file/proper project structure?
+    let g:neomake_elixir_enabled_makers = ['mix']
+    let g:neomake_elixir_mix_maker = {
+        \ 'args': ['compile'],
+        \ 'errorformat':
+        \ '** %s %f:%l: %m,' .
+        \ '%f:%l: warning: %m'
+        \ }
+    let g:neomake_elixir_test_maker = {
+        \ 'exe': 'mix',
+        \ 'args': ['test'],
+        \ 'errorformat':
+        \ '%Z       %f:%l,' .
+        \ '%C     ** %m,' .
+        \ '%C     %[%^:]%#:%.%#,' .
+        \ '%C     %m,' .
+        \ '%E  %n)%.%#'
+        \ }
 
   " vim-session
     let g:session_autoload = 'no'
