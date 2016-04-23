@@ -362,6 +362,10 @@
     " TODO: Delete old undofile automatically when vim starts
     " TODO: Delete old backup files automatically when vim starts
     " Both are under ~/.local/share/nvim/{undo,backup} in neovim by default
+    " Keep undo history across sessions by storing it in a file
+    call system('mkdir ' . &undodir)
+    set undofile
+    set backup
 
     " TODO: Make incremental search open all folds with matches while
     " searching, close the newly-opened ones when done (except the one the
