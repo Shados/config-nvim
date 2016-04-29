@@ -363,7 +363,10 @@
     " TODO: Delete old backup files automatically when vim starts
     " Both are under ~/.local/share/nvim/{undo,backup} in neovim by default
     " Keep undo history across sessions by storing it in a file
-    call system('mkdir ' . &undodir)
+    set undodir=~/.local/share/nvim/undo//
+    call system('mkdir -p' . &undodir)
+    set backupdir=~/.local/share/nvim/backup//
+    call system('mkdir -p ~/.local/share/nvim/backup')
     set undofile
     set backup
 
