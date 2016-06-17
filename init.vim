@@ -305,6 +305,9 @@
     if !empty($TMUX)
       let $NVIM_TUI_ENABLE_TRUE_COLOR=1
     endif
+    if $TERM == 'rxvt-unicode-256color'
+      let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    endif
     syntax enable
     colorscheme OceanicNext
     set background=dark
