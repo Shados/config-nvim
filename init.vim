@@ -45,6 +45,7 @@
     Plug 'avdgaag/vim-phoenix'
     Plug 'rust-lang/rust.vim'
     Plug 'xuhdev/vim-latex-live-preview'
+    Plug 'lambdatoast/elm.vim'
 
   " Project management
     Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'} | Plug 'jistr/vim-nerdtree-tabs'
