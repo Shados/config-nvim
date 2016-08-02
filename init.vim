@@ -83,8 +83,8 @@
 
   " Next-up
     " Plug 'bootleq/ShowMarks' " Better mark handling and display
-    " Plug 'tpope/vim-fugitive' " git integration for vim, need to watch
-    " screencasts
+    Plug 'tpope/vim-fugitive' " git integration for vim, need to watch
+    " screencasts. Have activated for now for commit wrapping.
     " Plug 'gregsexton/gitv' " vim-based git viewer, needs fugitive
     " repo viewer/browser
     " Plug `some sort of snippet plugin` - snipmate or ultisnips +
