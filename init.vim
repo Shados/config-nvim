@@ -304,10 +304,10 @@
 
   " Theming
     if !empty($TMUX)
-      let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+      set termguicolors
     endif
     if $TERM == 'rxvt-unicode-256color'
-      let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+      set termguicolors
     endif
     syntax enable
     colorscheme OceanicNext
