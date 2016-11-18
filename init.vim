@@ -25,7 +25,7 @@
   " Appearance
     Plug 'ap/vim-css-color'
     Plug 'skwp/vim-colors-solarized'
-    Plug 'mhartington/oceanic-next'
+    Plug 'morhetz/gruvbox'
     Plug 'itchyny/lightline.vim'
     "Plug 'ryanoasis/vim-devicons' " Adds language icons to things like nerdtree and lightline - need patched font: https://github.com/ryanoasis/nerd-fonts
     Plug 'fholgado/minibufexpl.vim' " Gives a statusline with buffers on it if you have any hidden buffers
@@ -310,8 +310,18 @@
       set termguicolors
     endif
     syntax enable
-    colorscheme OceanicNext
+    colorscheme gruvbox
+    let g:gruvbox_contrast_dark='hard'
+    let g:gruvbox_number_column='bg1'
     set background=dark
+    " gruvbox cursor highlight in search fixes
+    nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
+    nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
+    nnoremap <silent> coh :call gruvbox#hls_toggle()<CR>
+
+    nnoremap * :let @/ = ""<CR>:call gruvbox#hls_show()<CR>*
+    nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
+    nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
 
   " Search
     set incsearch " Incremental searching
@@ -327,7 +337,7 @@
     set autoindent " Copy indent to new line
     set smartindent " ...but be smarter and use different indent as appropriate
     set shiftwidth=2 " Use 2-space autoindentation
-    set softtabstop=2 
+    set softtabstop=2
     set tabstop=2 " Together with ^, number of spaces a <Tab> counts for
     set expandtab " Change <Tab> into spaces automatically in insert mode and with autoindent
     " Insert a real <Tab> with CTRL-V<Tab> while in insert mode
