@@ -104,7 +104,7 @@
 " Plugin configuration ============================== {{{
   " Lightline {{{
     let g:lightline = {
-          \ 'colorscheme': 'jellybeans',
+          \ 'colorscheme': 'gruvbox',
           \ 'active': {
           \   'left': [ [ 'mode', 'paste' ],
           \             [ 'fugitive'],[ 'filename' ] ]
