@@ -47,6 +47,7 @@
     Plug 'xuhdev/vim-latex-live-preview'
     Plug 'lambdatoast/elm.vim'
     Plug 'saltstack/salt-vim'
+    Plug 'elzr/vim-json' " Notably, let's you fold on json dict/lists
 
   " Project management
     Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'} | Plug 'jistr/vim-nerdtree-tabs'
@@ -163,6 +164,12 @@
             \ ('' != LLModified() ? ' ' . LLModified() : '')
     endfunction
   " }}}
+
+  " vim-json
+    " Set foldmethod to syntax so we can fold json dicts and lists
+    autocmd FileType json setlocal foldmethod=syntax 
+    " Then automatically unfold all so we don't start at 100% folded :)
+    autocmd FileType json normal zR
 
   " gist-vim:
     let g:gist_clip_command = 'xclip -selection clipboard'
