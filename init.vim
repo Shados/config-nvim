@@ -30,6 +30,7 @@
     "Plug 'ryanoasis/vim-devicons' " Adds language icons to things like nerdtree and lightline - need patched font: https://github.com/ryanoasis/nerd-fonts
     Plug 'fholgado/minibufexpl.vim' " Gives a statusline with buffers on it if you have any hidden buffers
     Plug 'haya14busa/incsearch.vim' " Incremental highlight on incsearch, including of partial regex matches
+    Plug 'Yggdroot/indentLine' " Visual display of indent levels
 
   " Language support and syntax highlighting
     Plug 'benekastah/neomake' " Async syntax and error checking 
@@ -48,6 +49,9 @@
     Plug 'lambdatoast/elm.vim'
     Plug 'saltstack/salt-vim'
     Plug 'elzr/vim-json' " Notably, let's you fold on json dict/lists
+
+  " Code cleanup, linting, and formatting
+    Plug 'sbdchd/neoformat'
 
   " Project management
     Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'} | Plug 'jistr/vim-nerdtree-tabs'
@@ -164,6 +168,18 @@
             \ ('' != LLModified() ? ' ' . LLModified() : '')
     endfunction
   " }}}
+
+  " indentLine
+    " Set the indent line's colour to a subtle, faded grey-brown
+    let g:indentLine_color_gui = '#564d43'
+
+  " neoformat
+    " Considered using yapf Python formatter, but it creates some *really*
+    " awkward constructs, frankly. 
+    " Some related GH issue #s: 465, 443, 414, 390, 379, 377...
+    " Conclusion: yapf needs way more knobs to be useful to me. Or I'm too
+    " particular about how I like my code formatted.
+    let g:neoformat_enabled_python = ['isort'] " :Neoformat in Python file to sort imports
 
   " vim-json
     " Set foldmethod to syntax so we can fold json dicts and lists
