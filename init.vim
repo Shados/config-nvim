@@ -349,7 +349,6 @@
 
   " Indentation
     set autoindent " Copy indent to new line
-    set smartindent " ...but be smarter and use different indent as appropriate
     set shiftwidth=2 " Use 2-space autoindentation
     set softtabstop=2
     set tabstop=2 " Together with ^, number of spaces a <Tab> counts for
