@@ -27,7 +27,7 @@
     Plug 'skwp/vim-colors-solarized'
     Plug 'morhetz/gruvbox'
     Plug 'itchyny/lightline.vim'
-    "Plug 'ryanoasis/vim-devicons' " Adds language icons to things like nerdtree and lightline - need patched font: https://github.com/ryanoasis/nerd-fonts
+    "Plug 'ryanoasis/vim-devicons' " Adds language icons to things like nerdtree and lightline - TODO need patched font: https://github.com/ryanoasis/nerd-fonts
     Plug 'fholgado/minibufexpl.vim' " Gives a statusline with buffers on it if you have any hidden buffers
     Plug 'haya14busa/incsearch.vim' " Incremental highlight on incsearch, including of partial regex matches
     Plug 'Yggdroot/indentLine' " Visual display of indent levels
@@ -170,7 +170,13 @@
   " }}}
 
   " ALE
-    
+    " TODO: use devicons for error/warning signs?
+    " TODO: auto-open any lines in folds with linter errors in them, or at
+    " least do so on ale_next/previous_wrap'ing to them...
+    " Req: install desired linters/style checkers (globally or in the
+    " virtualenv you're running from). flake8 is good.
+    nmap <silent> <leader>j <Plug>(ale_next_wrap)
+    nmap <silent> <leader>k <Plug>(ale_previous_wrap)
 
   " indentLine
     " Set the indent line's colour to a subtle, faded grey-brown
