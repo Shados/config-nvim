@@ -177,10 +177,14 @@
     " virtualenv you're running from). flake8 is good.
     nmap <silent> <leader>j <Plug>(ale_next_wrap)
     nmap <silent> <leader>k <Plug>(ale_previous_wrap)
+    let g:ale_fixers = {
+    \   'python': ['yapf'],
+    \ }
 
   " indentLine
     " Set the indent line's colour to a subtle, faded grey-brown
     let g:indentLine_color_gui = '#564d43'
+    let g:indentLine_char = '▏'
 
   " neoformat
     " Considered using yapf Python formatter, but it creates some *really*
