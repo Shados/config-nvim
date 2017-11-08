@@ -33,7 +33,7 @@
     Plug 'Yggdroot/indentLine' " Visual display of indent levels
 
   " Language support and syntax highlighting
-    Plug 'benekastah/neomake' " Async syntax and error checking 
+    Plug 'w0rp/ale' " Async linting
     Plug 'keith/tmux.vim'
     Plug 'othree/yajs.vim' | Plug 'othree/javascript-libraries-syntax.vim'
     Plug 'tpope/vim-markdown' | Plug 'jtratner/vim-flavored-markdown'
@@ -169,6 +169,9 @@
     endfunction
   " }}}
 
+  " ALE
+    
+
   " indentLine
     " Set the indent line's colour to a subtle, faded grey-brown
     let g:indentLine_color_gui = '#564d43'
@@ -179,7 +182,7 @@
     " Some related GH issue #s: 465, 443, 414, 390, 379, 377...
     " Conclusion: yapf needs way more knobs to be useful to me. Or I'm too
     " particular about how I like my code formatted.
-    let g:neoformat_enabled_python = ['isort'] " :Neoformat in Python file to sort imports
+    let g:neoformat_enabled_python = ['isort'] " :Neoformat in Python file to sort imports, needs 'isort' executable available
 
   " vim-json
     " Set foldmethod to syntax so we can fold json dicts and lists
@@ -194,29 +197,6 @@
     let g:gist_browser_command = 'firefox %URL% &'
     let g:gist_show_privates = 1 " show private posts with :Gist -l
     let g:gist_post_private = 1 " default to private gists
-
-  " Neomake
-    au BufRead,BufNewFile,BufWritePost * Neomake " Run checks on file open, creation and save
-    " Add filetype-specific makers/changes here, as necessary
-    " TODO: selectively enable mix instead of elixir maker with presence of
-    " mix.exs file/proper project structure?
-    let g:neomake_elixir_enabled_makers = ['mix']
-    let g:neomake_elixir_mix_maker = {
-        \ 'args': ['compile'],
-        \ 'errorformat':
-        \ '** %s %f:%l: %m,' .
-        \ '%f:%l: warning: %m'
-        \ }
-    let g:neomake_elixir_test_maker = {
-        \ 'exe': 'mix',
-        \ 'args': ['test'],
-        \ 'errorformat':
-        \ '%Z       %f:%l,' .
-        \ '%C     ** %m,' .
-        \ '%C     %[%^:]%#:%.%#,' .
-        \ '%C     %m,' .
-        \ '%E  %n)%.%#'
-        \ }
 
   " vim-session
     let g:session_autoload = 'no'
