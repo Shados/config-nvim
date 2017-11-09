@@ -181,6 +181,11 @@
     \   'python': ['yapf'],
     \ }
 
+    " Clear the warning buffer immediately on any change (to prevent
+    " highlights on the edited line from falling out of sync and throwing me
+    " off)
+    autocmd TextChanged,TextChangedI * ALEResetBuffer
+
   " indentLine
     " Set the indent line's colour to a subtle, faded grey-brown
     let g:indentLine_color_gui = '#564d43'
