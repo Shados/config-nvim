@@ -204,6 +204,10 @@
     autocmd FileType json setlocal foldmethod=syntax 
     " Then automatically unfold all so we don't start at 100% folded :)
     autocmd FileType json normal zR
+    " Don't conceal quote marks, that's fucking horrific. Who the hell would
+    " choose to default to that behaviour? Do they only ever read json, never
+    " write it?! Hell, even then it's still problematic!
+    let g:vim_json_syntax_conceal = 0
 
   " gist-vim:
     let g:gist_clip_command = 'xclip -selection clipboard'
