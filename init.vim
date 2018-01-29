@@ -36,7 +36,9 @@
     Plug 'w0rp/ale' " Async linting
     Plug 'keith/tmux.vim'
     Plug 'othree/yajs.vim' | Plug 'othree/javascript-libraries-syntax.vim'
-    Plug 'tpope/vim-markdown' | Plug 'jtratner/vim-flavored-markdown'
+    "Plug 'tpope/vim-markdown' | Plug 'jtratner/vim-flavored-markdown'
+    "Plug 'plasticboy/vim-markdown'
+    Plug 'gabrielelana/vim-markdown'
     "Plug 'tomtom/tlib_vim' | Plug 'MarcWeber/vim-addon-mw-utils' | Plug 'MarcWeber/vim-addon-actions' | Plug 'MarcWeber/vim-addon-completion' | Plug 'MarcWeber/vim-addon-goto-thing-at-cursor' | Plug 'MarcWeber/vim-addon-errorformats' | Plug 'MarcWeber/vim-addon-nix' " Nix error checking -- currently broken under neovim, not sure why
     Plug 'LnL7/vim-nix' " Nix syntax highlighting
     Plug 'Matt-Deacalion/vim-systemd-syntax'
@@ -167,6 +169,19 @@
             \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
             \ ('' != LLModified() ? ' ' . LLModified() : '')
     endfunction
+  " }}}
+
+  " Markdown {{{
+    " Enable syntax-based folding.
+    " This will have negative performance impact on sufficiently large files,
+    " however, and simply disabling folding in general does not stop that.
+    let g:markdown_enable_folding = 1
+    " Automatically unfold all so we don't start at 100% folded :)
+    autocmd FileType markdown normal zR
+    " Disable spellcheck (it's bad, and I'm not)
+    let g:markdown_enable_spell_checking = 0
+    " Set indent/tab for markdown files to 4 spaces
+    autocmd FileType markdown setlocal shiftwidth=4 softtabstop=4 tabstop=4
   " }}}
 
   " ALE
