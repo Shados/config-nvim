@@ -186,7 +186,7 @@
     autocmd FileType markdown setlocal shiftwidth=4 softtabstop=4 tabstop=4
   " }}}
 
-  " ALE
+  " ALE {{{
     " TODO: use devicons for error/warning signs?
     " TODO: auto-open any lines in folds with linter errors in them, or at
     " least do so on ale_next/previous_wrap'ing to them...
@@ -202,21 +202,24 @@
     " highlights on the edited line from falling out of sync and throwing me
     " off)
     autocmd TextChanged,TextChangedI * ALEResetBuffer
+  " }}}
 
-  " indentLine
+  " indentLine {{{
     " Set the indent line's colour to a subtle, faded grey-brown
     let g:indentLine_color_gui = '#564d43'
     let g:indentLine_char = '▏'
+  " }}}
 
-  " neoformat
+  " neoformat {{{
     " Considered using yapf Python formatter, but it creates some *really*
     " awkward constructs, frankly. 
     " Some related GH issue #s: 465, 443, 414, 390, 379, 377...
     " Conclusion: yapf needs way more knobs to be useful to me. Or I'm too
     " particular about how I like my code formatted.
     let g:neoformat_enabled_python = ['isort'] " :Neoformat in Python file to sort imports, needs 'isort' executable available
+  " }}}
 
-  " vim-json
+  " vim-json {{{
     " Set foldmethod to syntax so we can fold json dicts and lists
     autocmd FileType json setlocal foldmethod=syntax 
     " Then automatically unfold all so we don't start at 100% folded :)
@@ -225,25 +228,29 @@
     " choose to default to that behaviour? Do they only ever read json, never
     " write it?! Hell, even then it's still problematic!
     let g:vim_json_syntax_conceal = 0
+  " }}}
 
-  " gist-vim:
+  " gist-vim: {{{
     let g:gist_clip_command = 'xclip -selection clipboard'
     let g:gist_detect_filetype = 1
     let g:open_browser_after_post = 1
     let g:gist_browser_command = 'firefox %URL% &'
     let g:gist_show_privates = 1 " show private posts with :Gist -l
     let g:gist_post_private = 1 " default to private gists
+  " }}}
 
-  " vim-session
+  " vim-session {{{
     let g:session_autoload = 'no'
     let g:session_autosave = 'no'
     let g:session_command_aliases = 1 " Session-prefixed command aliases, e.g. OpenSession -> SessionOpen
+  " }}}
 
-  " deoplete
+  " deoplete {{{
     let g:deoplete#enable_at_startup = 1 " Enable deoplete
     let g:deoplete#enable_smart_case = 1 " Use smartcase
+  " }}}
 
-  " ctrlp
+  " ctrlp {{{
     " Sets ctrlp working dir to vim working dir, unless current file is not
     " a descendent of vim working dir path
     let g:ctrlp_working_path_mode = 'a'
@@ -252,7 +259,7 @@
     let g:ctrlp_custom_ignore = {
       \ 'dir': '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp$',
       \ 'file': '\.exe$\|\.so$\|\.dat$'
-      \ } 
+      \ }
 
     " Use The Silver Searcher (ag) for ctrl-p search backend if available (it's
     " real fast and respects .gitignore yo)
@@ -261,20 +268,23 @@
     endif
 
     let g:ctrlp_switch_buffer = 0 " Don't jump to existing window on buffer, open new one
+  " }}}
 
-  " NERDTree + Tabs
+  " NERDTree + Tabs {{{
     let NERDTreeMinimalUI = 1 " Prettify
     let NERDTreeDirArrows = 1 "Prettify moar 
     let g:nerdtree_tabs_open_on_gui_startup = 0 "Don't start with vim
+  " }}}
 
-  " General plugin config
+  " General plugin config {{{
     let g:javascript_enable_domhtmlcss = 1 " Enable HTMLL/CSS highlighting in JS files
     " Disable the scrollbars (NERDTree)
     set guioptions-=r
     set guioptions-=L
     let g:session_directory = '~/.local/share/nvim/sessions'
     let g:livepreview_previewer = 'zathura' " Zathura is pretty much ideal for this purpose, in my experience
-    let g:nix_maintainer = "arobyn"
+    let g:UltiSnipsSnippetDirectories = ['~/.config/nvim/UltiSnips', 'UltiSnips']
+  " }}}
 " }}}
 
 " Key binds/mappings ====================================== {{{
