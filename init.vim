@@ -39,8 +39,7 @@
     "Plug 'tpope/vim-markdown' | Plug 'jtratner/vim-flavored-markdown'
     "Plug 'plasticboy/vim-markdown'
     Plug 'gabrielelana/vim-markdown'
-    "Plug 'tomtom/tlib_vim' | Plug 'MarcWeber/vim-addon-mw-utils' | Plug 'MarcWeber/vim-addon-actions' | Plug 'MarcWeber/vim-addon-completion' | Plug 'MarcWeber/vim-addon-goto-thing-at-cursor' | Plug 'MarcWeber/vim-addon-errorformats' | Plug 'MarcWeber/vim-addon-nix' " Nix error checking -- currently broken under neovim, not sure why
-    Plug 'LnL7/vim-nix' " Nix syntax highlighting
+    Plug 'LnL7/vim-nix' " Nix syntax highlighting, error checking/linting is handled by ALE
     Plug 'Matt-Deacalion/vim-systemd-syntax'
     Plug 'RobertAudi/fish.vim'
     Plug 'vim-erlang/vim-erlang-runtime' | Plug 'vim-erlang/vim-erlang-compiler' | Plug 'vim-erlang/vim-erlang-omnicomplete' | Plug 'vim-erlang/vim-erlang-tags'
@@ -51,6 +50,12 @@
     Plug 'lambdatoast/elm.vim'
     Plug 'saltstack/salt-vim'
     Plug 'elzr/vim-json' " Notably, let's you fold on json dict/lists
+
+  " Code creation & refactoring improvements
+    Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Code snippets, the mighty slayer of boilerplate
+    Plug 'Shougo/deoplete.nvim', {'do': function('PlugUpdateRemote')} " neocomplete for neovim (irony), still pretty beta but good
+    Plug 'tpope/vim-endwise' " Automatic closing of control flow blocks for most languages, eg. `end` inserted after `if` in Ruby
+    Plug 'Raimondi/delimitMate' " Automatic context-sensitive closing of quotes, parenthesis, brackets, etc. and related features
 
   " Code cleanup, linting, and formatting
     Plug 'sbdchd/neoformat'
@@ -76,14 +81,11 @@
     " management, very cool
     Plug 'easymotion/vim-easymotion'
     Plug 'AndrewRadev/splitjoin.vim' " Allows for splitting/joining code into/from multi-line formats, gS and gJ bydefault
-    Plug 'Raimondi/delimitMate' " Automatic context-sensitive closing of quotes, parenthesis, brackets, etc. and related features
-    Plug 'Shougo/deoplete.nvim', {'do': function('PlugUpdateRemote')} " neocomplete for neovim (irony), still pretty beta but good
-    Plug 'tomtom/tcomment_vim' " Toggle commenting of lines with gc{motion}, also works in visual mode
     Plug 'terryma/vim-multiple-cursors' " SublimeText-style multiple cursor impl., ctrl-n to start matching on current word to place
+    Plug 'tomtom/tcomment_vim' " Toggle commenting of lines with gc{motion}, also works in visual mode
     Plug 'sjl/gundo.vim' " Allows you to visualize your undo tree in a pane opened with :GundoToggle
     Plug 'bogado/file-line' " Allows doing `vim filename:lineno`
     Plug 'vim-scripts/camelcasemotion' " ,w ,b and ,e alternate motions that support traversing CamelCase and underscore_notation
-    Plug 'tpope/vim-endwise' " Automatic closing of control flow blocks for most languages, eg. `end` inserted after `if` in Ruby
     Plug 'tpope/vim-surround' " Primarily useful for surrounding existing lines in new delimiters, quotation marks, xml tags, etc., or removing or modifying said 'surroundings'. <operation>s<surrounding-type> is most-used
     Plug 'tpope/vim-repeat' " Plugin-hookable `.`-replacement, user-transparent
     Plug 'chrisbra/SudoEdit.vim' " Lets you do `:SudoWrite`/`:SudoRead`, and also launch vim with `nvim sudo:/etc/fstab`, all of which are nicer+shorter than directly using the tee trick
@@ -387,6 +389,8 @@
   set wrap " Wrap lines...
   set linebreak " ...visually, at convenient places
   set list listchars=trail:·,tab:»· " Display <Tab>s and trailing spaces visually
+  " Tweak the colour of the visible tab/space characters
+  highlight Whitespace guifg=#857767
   set foldmethod=marker " Because file-based folds are awesome
   set scrolloff=6 " Keep 6 lines minimum above/below cursor when possible; gives context
   set sidescrolloff=10 " Similar, but for vertical space & columns
