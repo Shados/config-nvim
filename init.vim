@@ -316,14 +316,11 @@
   nnoremap <silent> vv <C-w>v
   nnoremap <silent> ss <C-w>s
 
-  " Quicker split navigation with Ctrl-h/l/j/k
-  nnoremap <silent> <C-h> <C-w>h
-  nnoremap <silent> <C-l> <C-w>l
-  nnoremap <silent> <C-k> <C-w>k
-  nnoremap <silent> <C-j> <C-w>j
-  " Terrible band-aid until neovim/neovim#2048 is resolved internally.
-  " Fixing terminfo locally is not a solution due to remote computers
-  nmap <BS> <C-w>h 
+  " Quicker split navigation with <leader>-h/l/j/k
+  nnoremap <silent> <leader>h <C-w>h
+  nnoremap <silent> <leader>l <C-w>l
+  nnoremap <silent> <leader>k <C-w>k
+  nnoremap <silent> <leader>j <C-w>j
 
   " Quicker split resizing with Ctrl-<Arrow Key>
   nnoremap <C-Up> <C-w>+
