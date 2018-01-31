@@ -206,7 +206,7 @@
 
   " indentLine {{{
     " Set the indent line's colour to a subtle, faded grey-brown
-    let g:indentLine_color_gui = '#564d43'
+    let g:indentLine_color_gui = '#474038'
     let g:indentLine_char = '▏'
   " }}}
 
