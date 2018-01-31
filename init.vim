@@ -345,7 +345,7 @@
   map g/ <Plug>(incsearch-stay)
 " }}}
 
-" Basic options ===================================== {{{
+" Basic configuration ===================================== {{{
   " Resize splits when the window is resized
   au VimResized * exe "normal! \<c-w>="
 
@@ -413,7 +413,7 @@
   let g:netrw_home=$HOME . "/.local/share/nvim"
 " }}}
 
-" Advanced options ================================== {{{
+" Advanced configuration ================================== {{{
     " Use The Silver Searcher (ag) for search backend if available (it's
     " real fast and respects .gitignore yo)
     if (executable('ag'))
@@ -443,4 +443,14 @@
     " File-patterns to ignore for wildcard matching on tab completion
       set wildignore=*.o,*.obj,*~ 
       set wildignore+=*.png,*.jpg,*.gif
+
+    " Have nvim jump to the last position when reopening a file
+    if has("autocmd")
+      au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    endif
+
+    " Default to opened folds in gitcommit filetype (having them closed by
+    " default doesn't make sense in this context; only really comes up when
+    " using e.g. `git commit -v` to get the commit changes displayed)
+    autocmd FileType gitcommit normal zR
 " }}}
