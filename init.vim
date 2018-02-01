@@ -190,8 +190,6 @@
     " least do so on ale_next/previous_wrap'ing to them...
     " Req: install desired linters/style checkers (globally or in the
     " virtualenv you're running from). flake8 is good.
-    nmap <silent> <leader>j <Plug>(ale_next_wrap)
-    nmap <silent> <leader>k <Plug>(ale_previous_wrap)
     let g:ale_fixers = {
     \   'python': ['yapf'],
     \ }
@@ -263,10 +261,6 @@
       call denite#custom#var('file_rec', 'command',
         \ ['ag', '-l', '--nocolor', '-g', ''])
     endif
-
-    " Main keybind. Searches through most-recently-used files, recursive
-    " file/dir tree, and current buffers
-    nnoremap <leader>f :<C-u>Denite file_mru file_rec buffer<cr>
   " }}}
 
   " NERDTree + Tabs {{{
@@ -337,6 +331,14 @@
   map / <Plug>(incsearch-forward)
   map ? <Plug>(incsearch-backward)
   map g/ <Plug>(incsearch-stay)
+
+  " Searches through most-recently-used files, recursive file/dir tree, and
+  " current buffers
+  nnoremap <leader>f :<C-u>Denite file_mru file_rec buffer<cr>
+
+  " Move forward/backward between flagged warnings & errors
+  nmap <silent> <leader>j <Plug>(ale_next_wrap)
+  nmap <silent> <leader>k <Plug>(ale_previous_wrap)
 " }}}
 
 " Basic configuration ===================================== {{{
