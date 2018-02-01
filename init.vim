@@ -56,13 +56,11 @@
     Plug 'Shougo/deoplete.nvim', {'do': function('PlugUpdateRemote')} " neocomplete for neovim (irony), still pretty beta but good
     Plug 'tpope/vim-endwise' " Automatic closing of control flow blocks for most languages, eg. `end` inserted after `if` in Ruby
     Plug 'Raimondi/delimitMate' " Automatic context-sensitive closing of quotes, parenthesis, brackets, etc. and related features
-
-  " Code cleanup, linting, and formatting
-    Plug 'sbdchd/neoformat'
+    Plug 'sbdchd/neoformat' " Code cleanup, linting, and formatting
 
   " Project management
     Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'} | Plug 'jistr/vim-nerdtree-tabs'
-    Plug 'ctrlpvim/ctrlp.vim', {'on': 'CtrlP'} " Full path fuzzy file/buffer/mru/tag/..., hit <C-p> obviously
+    Plug 'Shougo/denite.nvim', {'do': function('PlugUpdateRemote')} | Plug 'Shougo/neomru.vim' " Full path fuzzy file/buffer/mru/tag/.../arbitrary list search, bound to <leader>f (for find?)
     Plug 'vim-scripts/TaskList.vim' " Display FIXME/TODO/etc. in handy browseable list pane, bound to <Leader>t, then q to cancel, e to quit browsing but leave tasklist up, <CR> to quit and place cursor on selected task
 
   " Textobjects
@@ -251,24 +249,24 @@
     let g:deoplete#enable_smart_case = 1 " Use smartcase
   " }}}
 
-  " ctrlp {{{
-    " Sets ctrlp working dir to vim working dir, unless current file is not
-    " a descendent of vim working dir path
-    let g:ctrlp_working_path_mode = 'a'
-    " Sane Ignore For ctrlp - ctrlp scans directory tree by default, this
-    " ignores vcs files and the like
-    let g:ctrlp_custom_ignore = {
-      \ 'dir': '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp$',
-      \ 'file': '\.exe$\|\.so$\|\.dat$'
-      \ }
+  " Denite {{{
+    " Sane ignore for file tree matching, this ignores vcs files, binaries,
+    " temporary files, etc.
+    call denite#custom#filter ('matcher_ignore_globs', 'ignore_globs',
+      \ [ '.git/', '.hg/', '.svn/', '.yardoc/', 'public/mages/',
+      \   'public/system/', 'log/', 'tmp/', '__pycache__/', 'venv/', '*.min.*',
+      \   '*.pyc', '*.exe', '*.so', '*.dat', '*.bin', '*.o'])
 
-    " Use The Silver Searcher (ag) for ctrl-p search backend if available (it's
+    " Use The Silver Searcher (ag) for denite search backend if available (it's
     " real fast and respects .gitignore yo)
     if (executable('ag'))
-      let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+      call denite#custom#var('file_rec', 'command',
+        \ ['ag', '-l', '--nocolor', '-g', ''])
     endif
 
-    let g:ctrlp_switch_buffer = 0 " Don't jump to existing window on buffer, open new one
+    " Main keybind. Searches through most-recently-used files, recursive
+    " file/dir tree, and current buffers
+    nnoremap <leader>f :<C-u>Denite file_mru file_rec buffer<cr>
   " }}}
 
   " NERDTree + Tabs {{{
@@ -307,11 +305,6 @@
   nmap <Leader>p :NERDTreeToggle<CR>
   " Open the project tree and expose current file in the nerdtree with Ctrl-\
   nnoremap <silent> <C-\> :NERDTreeFind<CR>
-
-  " ctrl-p search on <Leader>f, for fuzzy or find or whatever
-  let g:ctrlp_map = '<Leader>f'
-  " The below is necessary to work with on-demand plugin loading
-  nnoremap <Leader>f :CtrlP<CR>
 
   " Easier window splits, C-w,v to vv, C-w,s to ss
   nnoremap <silent> vv <C-w>v
