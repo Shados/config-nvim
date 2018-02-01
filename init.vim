@@ -337,8 +337,8 @@
   nnoremap <leader>f :<C-u>Denite file_mru file_rec buffer<cr>
 
   " Move forward/backward between flagged warnings & errors
-  nmap <silent> <leader>j <Plug>(ale_next_wrap)
-  nmap <silent> <leader>k <Plug>(ale_previous_wrap)
+  nmap <silent> <leader>] <Plug>(ale_next_wrap)
+  nmap <silent> <leader>[ <Plug>(ale_previous_wrap)
 " }}}
 
 " Basic configuration ===================================== {{{
