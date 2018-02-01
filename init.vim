@@ -36,8 +36,6 @@
     Plug 'w0rp/ale' " Async linting
     Plug 'keith/tmux.vim'
     Plug 'othree/yajs.vim' | Plug 'othree/javascript-libraries-syntax.vim'
-    "Plug 'tpope/vim-markdown' | Plug 'jtratner/vim-flavored-markdown'
-    "Plug 'plasticboy/vim-markdown'
     Plug 'gabrielelana/vim-markdown'
     Plug 'LnL7/vim-nix' " Nix syntax highlighting, error checking/linting is handled by ALE
     Plug 'Matt-Deacalion/vim-systemd-syntax'
@@ -91,22 +89,12 @@
 
   " Next-up
     " Plug 'bootleq/ShowMarks' " Better mark handling and display
-    Plug 'tpope/vim-fugitive' " git integration for vim, need to watch
-    " screencasts. Have activated for now for commit wrapping.
-    " Plug 'gregsexton/gitv' " vim-based git viewer, needs fugitive
-    " repo viewer/browser
-    " Plug `some sort of snippet plugin` - snipmate or ultisnips +
-    " vim-snippets
+    Plug 'tpope/vim-fugitive' " git integration for vim, need to watch screencasts. Have activated for now for commit wrapping.
+    " Plug 'gregsexton/gitv' " vim-based git viewer, needs fugitive repo viewer/browser
     " Tags? (tagbar seems interesting?)
-    " Plug 'godlygeek/tabular' " Align elements on neighbouring lines, e.g.
-    " quickly build text 'tables'
-    " Plug 'Keithbsmiley/investigate.vim " Lookup docs on word under cursor,
-    " configurable lookup command - this would be extremely useful if I
-    " write PageUp
-    " Plug 'tpope/vim-abolish' " Used for performing operations on all
-    " variations of a word/words, there will likely come a day when I want
-    " this
-  call plug#end() " Adds plugins to runtimepath 
+    " Plug 'godlygeek/tabular' " Align elements on neighbouring lines, e.g. quickly build text 'tables'
+    " Plug 'Keithbsmiley/investigate.vim " Lookup docs on word under cursor, configurable lookup command - this would be extremely useful if I write PageUp
+  call plug#end() " Adds plugins to runtimepath
 " }}}
 
 " Plugin configuration ============================== {{{
