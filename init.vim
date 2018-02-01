@@ -51,8 +51,8 @@
     Plug 'saltstack/salt-vim'
     Plug 'elzr/vim-json' " Notably, let's you fold on json dict/lists
 
-  " Code creation & refactoring improvements
     Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Code snippets, the mighty slayer of boilerplate
+  " Code creation & refactoring
     Plug 'Shougo/deoplete.nvim', {'do': function('PlugUpdateRemote')} " neocomplete for neovim (irony), still pretty beta but good
     Plug 'tpope/vim-endwise' " Automatic closing of control flow blocks for most languages, eg. `end` inserted after `if` in Ruby
     Plug 'Raimondi/delimitMate' " Automatic context-sensitive closing of quotes, parenthesis, brackets, etc. and related features
