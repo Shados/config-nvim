@@ -339,6 +339,11 @@
   " Move forward/backward between flagged warnings & errors
   nmap <silent> <leader>] <Plug>(ale_next_wrap)
   nmap <silent> <leader>[ <Plug>(ale_previous_wrap)
+
+  " Backspace to swap to previous buffer
+  noremap <BS> <C-^>
+  " Shift-Backspace to delete line contents but leave the line itself
+  noremap <S-BS> cc<ESC>
 " }}}
 
 " Basic configuration ===================================== {{{
