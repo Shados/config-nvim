@@ -40,7 +40,6 @@
     Plug 'skwp/vim-colors-solarized'
     Plug 'morhetz/gruvbox'
     Plug 'itchyny/lightline.vim'
-    "Plug 'ryanoasis/vim-devicons' " Adds language icons to things like nerdtree and lightline - TODO need patched font: https://github.com/ryanoasis/nerd-fonts
     Plug 'haya14busa/incsearch.vim' " Incremental highlight on incsearch, including of partial regex matches
     Plug 'Yggdroot/indentLine' " Visual display of indent levels
 
@@ -109,6 +108,9 @@
     " Tags? (tagbar seems interesting?)
     " Plug 'godlygeek/tabular' " Align elements on neighbouring lines, e.g. quickly build text 'tables'
     " Plug 'Keithbsmiley/investigate.vim " Lookup docs on word under cursor, configurable lookup command - this would be extremely useful if I write PageUp
+
+  " Late-loaded plugins
+    Plug 'ryanoasis/vim-devicons' " Adds language icons to things like nerdtree and lightline
   call plug#end() " Adds plugins to runtimepath
 " }}}
 
@@ -283,6 +285,11 @@
   " vim-workspace {{{
     " Disable lightline's tabline functionality, as it conflicts with this
     let g:lightline.enable = { 'tabline': 0 }
+    " Prettify
+    let g:workspace_powerline_separators = 1
+    let g:workspace_tab_icon = "\uf00a"
+    let g:workspace_left_trunc_icon = "\uf0a8"
+    let g:workspace_right_trunc_icon = "\uf0a9"
   " }}}
 
   " General plugin config {{{
