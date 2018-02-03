@@ -1,5 +1,18 @@
-" First-load settings
+" Early-load settings {{{
   let mapleader = "\<Space>"
+
+  " Customize vim-workspace colours based on gruvbox colours
+  function g:WorkspaceSetCustomColors()
+    highlight WorkspaceBufferCurrentDefault guibg=#a89984 guifg=#282828
+    highlight WorkspaceBufferActiveDefault guibg=#504945 guifg=#a89984
+    highlight WorkspaceBufferHiddenDefault guibg=#3c3836 guifg=#a89984
+    highlight WorkspaceBufferTruncDefault guibg=#3c3836 guifg=#b16286
+    highlight WorkspaceTabCurrentDefault guibg=#689d6a guifg=#282828
+    highlight WorkspaceTabHiddenDefault guibg=#458588 guifg=#282828
+    highlight WorkspaceFillDefault guibg=#3c3836 guifg=#3c3836
+    highlight WorkspaceIconDefault guibg=#3c3836 guifg=#3c3836
+  endfunction
+" }}}
 
 " Plugin functions ================================== {{{
   function! PlugUpdateRemote(info)
@@ -28,7 +41,6 @@
     Plug 'morhetz/gruvbox'
     Plug 'itchyny/lightline.vim'
     "Plug 'ryanoasis/vim-devicons' " Adds language icons to things like nerdtree and lightline - TODO need patched font: https://github.com/ryanoasis/nerd-fonts
-    Plug 'fholgado/minibufexpl.vim' " Gives a statusline with buffers on it if you have any hidden buffers
     Plug 'haya14busa/incsearch.vim' " Incremental highlight on incsearch, including of partial regex matches
     Plug 'Yggdroot/indentLine' " Visual display of indent levels
 
@@ -49,6 +61,7 @@
     Plug 'saltstack/salt-vim'
     Plug 'elzr/vim-json' " Notably, let's you fold on json dict/lists
 
+  " Text/code creation & refactoring
     Plug 'Shougo/neosnippet.vim' | Plug 'Shougo/neosnippet-snippets' " Code snippets, the mighty slayer of boilerplate
   " Code creation & refactoring
     Plug 'Shougo/deoplete.nvim', {'do': function('PlugUpdateRemote')} " neocomplete for neovim (irony), still pretty beta but good
@@ -57,7 +70,9 @@
     Plug 'sbdchd/neoformat' " Code cleanup, linting, and formatting
 
   " Project management
-    Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'} | Plug 'jistr/vim-nerdtree-tabs'
+    " Plug 'fholgado/minibufexpl.vim' " Gives a statusline with buffers on it if you have any hidden buffers
+    Plug 'bagrat/vim-workspace' " Statusline with buffers and tabs listed very cleanly
+    Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
     Plug 'Shougo/denite.nvim', {'do': function('PlugUpdateRemote')} | Plug 'Shougo/neomru.vim' " Full path fuzzy file/buffer/mru/tag/.../arbitrary list search, bound to <leader>f (for find?)
     Plug 'vim-scripts/TaskList.vim' " Display FIXME/TODO/etc. in handy browseable list pane, bound to <Leader>t, then q to cancel, e to quit browsing but leave tasklist up, <CR> to quit and place cursor on selected task
     Plug 'xolox/vim-misc' | Plug 'xolox/vim-session' " Extended session
@@ -100,19 +115,19 @@
 " Plugin configuration ============================== {{{
   " Lightline {{{
     let g:lightline = {
-          \ 'colorscheme': 'gruvbox',
-          \ 'active': {
-          \   'left': [ [ 'mode', 'paste' ],
-          \             [ 'fugitive'],[ 'filename' ] ]
-          \ },
-          \ 'component_function': {
-          \   'fugitive': 'LLFugitive',
-          \   'readonly': 'LLReadonly',
-          \   'modified': 'LLModified',
-          \   'filename': 'LLFilename',
-          \   'mode': 'LLMode'
-          \ }
-          \ }
+      \ 'colorscheme': 'gruvbox',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive'],[ 'filename' ] ]
+      \ },
+      \ 'component_function': {
+      \   'fugitive': 'LLFugitive',
+      \   'readonly': 'LLReadonly',
+      \   'modified': 'LLModified',
+      \   'filename': 'LLFilename',
+      \   'mode': 'LLMode'
+      \ }
+    \ }
 
     function! LLMode()
       let fname = expand('%:t')
@@ -251,10 +266,9 @@
     endif
   " }}}
 
-  " NERDTree + Tabs {{{
+  " NERDTree {{{
     let NERDTreeMinimalUI = 1 " Prettify
     let NERDTreeDirArrows = 1 "Prettify moar 
-    let g:nerdtree_tabs_open_on_gui_startup = 0 "Don't start with vim
   " }}}
 
   " Neosnippets {{{
@@ -264,6 +278,11 @@
     if has('conceal')
       set conceallevel=2 concealcursor=niv
     endif
+  " }}}
+
+  " vim-workspace {{{
+    " Disable lightline's tabline functionality, as it conflicts with this
+    let g:lightline.enable = { 'tabline': 0 }
   " }}}
 
   " General plugin config {{{
