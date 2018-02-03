@@ -1,0 +1,13 @@
+snippet nxo
+abbr NixOS Module Option
+  mkOption {
+    type = with types; ${1:str};
+    default = "${2:}";
+    description = ''
+      ${3}
+    '';
+    example = "${4:}${0}";
+  };
+snippet nxe
+abbr NixOS Module EnableOption
+  mkEnableOption "${1:some feature/service}${0}";

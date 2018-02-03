@@ -49,7 +49,7 @@
     Plug 'saltstack/salt-vim'
     Plug 'elzr/vim-json' " Notably, let's you fold on json dict/lists
 
-    Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Code snippets, the mighty slayer of boilerplate
+    Plug 'Shougo/neosnippet.vim' | Plug 'Shougo/neosnippet-snippets' " Code snippets, the mighty slayer of boilerplate
   " Code creation & refactoring
     Plug 'Shougo/deoplete.nvim', {'do': function('PlugUpdateRemote')} " neocomplete for neovim (irony), still pretty beta but good
     Plug 'tpope/vim-endwise' " Automatic closing of control flow blocks for most languages, eg. `end` inserted after `if` in Ruby
@@ -257,6 +257,15 @@
     let g:nerdtree_tabs_open_on_gui_startup = 0 "Don't start with vim
   " }}}
 
+  " Neosnippets {{{
+    let g:neosnippets#snippets_directory = '~/.config/nvim/neosnippets/'
+
+    " For conceal markers.
+    if has('conceal')
+      set conceallevel=2 concealcursor=niv
+    endif
+  " }}}
+
   " General plugin config {{{
     let g:javascript_enable_domhtmlcss = 1 " Enable HTMLL/CSS highlighting in JS files
     " Disable the scrollbars (NERDTree)
@@ -264,7 +273,6 @@
     set guioptions-=L
     let g:session_directory = '~/.local/share/nvim/sessions'
     let g:livepreview_previewer = 'zathura' " Zathura is pretty much ideal for this purpose, in my experience
-    let g:UltiSnipsSnippetDirectories = ['~/.config/nvim/UltiSnips', 'UltiSnips']
   " }}}
 " }}}
 
@@ -332,6 +340,19 @@
   noremap <BS> <C-^>
   " Shift-Backspace to delete line contents but leave the line itself
   noremap <S-BS> cc<ESC>
+
+  " Neosnippet mappings
+  imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+  smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k>     <Plug>(neosnippet_expand_target)
+  " SuperTab like snippets behavior.
+  imap <expr><TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ neosnippet#expandable_or_jumpable() ?
+  \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+  smap <expr><TAB>
+  \ neosnippet#expandable_or_jumpable() ?
+  \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 " }}}
 
 " Basic configuration ===================================== {{{
