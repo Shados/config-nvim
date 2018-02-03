@@ -60,6 +60,7 @@
     Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'} | Plug 'jistr/vim-nerdtree-tabs'
     Plug 'Shougo/denite.nvim', {'do': function('PlugUpdateRemote')} | Plug 'Shougo/neomru.vim' " Full path fuzzy file/buffer/mru/tag/.../arbitrary list search, bound to <leader>f (for find?)
     Plug 'vim-scripts/TaskList.vim' " Display FIXME/TODO/etc. in handy browseable list pane, bound to <Leader>t, then q to cancel, e to quit browsing but leave tasklist up, <CR> to quit and place cursor on selected task
+    Plug 'xolox/vim-misc' | Plug 'xolox/vim-session' " Extended session
 
   " Textobjects
     Plug 'wellle/targets.vim' " Upgrades many of vim's inbuilt textobjects and adds some very useful new ones, like a, and i, for working with comma-separated lists
@@ -73,7 +74,6 @@
     Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim' " Post and edit gists directly from vim
     Plug 'skwp/vim-html-escape' " Escape text in html doc with \he, \hu to unescape
     Plug 'vim-scripts/SyntaxRange' " Set start/end tags to alter syntax highlighting between them to another type - see ~/.config/nvim/after/syntax/* files for existing tags
-    Plug 'xolox/vim-misc' | Plug 'xolox/vim-session' " Extended session
     " management, very cool
     Plug 'easymotion/vim-easymotion'
     Plug 'AndrewRadev/splitjoin.vim' " Allows for splitting/joining code into/from multi-line formats, gS and gJ bydefault
@@ -258,7 +258,7 @@
   " }}}
 
   " Neosnippets {{{
-    let g:neosnippets#snippets_directory = '~/.config/nvim/neosnippets/'
+    let g:neosnippet#snippets_directory = expand('~/.config/nvim/neosnippets/')
 
     " For conceal markers.
     if has('conceal')
@@ -271,7 +271,6 @@
     " Disable the scrollbars (NERDTree)
     set guioptions-=r
     set guioptions-=L
-    let g:session_directory = '~/.local/share/nvim/sessions'
     let g:livepreview_previewer = 'zathura' " Zathura is pretty much ideal for this purpose, in my experience
   " }}}
 " }}}
