@@ -275,11 +275,6 @@
 
   " Neosnippets {{{
     let g:neosnippet#snippets_directory = expand('~/.config/nvim/neosnippets/')
-
-    " For conceal markers.
-    if has('conceal')
-      set conceallevel=2 concealcursor=niv
-    endif
   " }}}
 
   " vim-workspace {{{
