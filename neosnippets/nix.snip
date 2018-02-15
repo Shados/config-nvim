@@ -11,3 +11,10 @@ abbr NixOS Module Option
 snippet nxe
 abbr NixOS Module EnableOption
 	mkEnableOption "${1:some feature/service}${0}";
+snippet nxng
+abbr NixOS Nginx extraConfig option
+	extraConfig = ''
+		#langon = nginx
+		${0}
+		#langoff = nginx
+	'';
