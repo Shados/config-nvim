@@ -292,6 +292,16 @@
     let g:workspace_right_trunc_icon = "\uf0a9"
   " }}}
 
+  " Tagbar {{{
+    " Default tag sorting by order of appearance within file (still grouped by
+    " scope)
+    let g:tagbar_sort = 0
+    " Keep all tagbar folds closed initially; better for a top-level overview
+    let g:tagbar_foldlevel = 0
+    " Move cursor to the tagbar window when it is opened
+    let g:tagbar_autofocus = 1
+  " }}}
+
   " General plugin config {{{
     let g:javascript_enable_domhtmlcss = 1 " Enable HTMLL/CSS highlighting in JS files
     " Disable the scrollbars (NERDTree)
