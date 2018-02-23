@@ -474,6 +474,9 @@
     " Have nvim jump to the last position when reopening a file
     if has("autocmd")
       au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+      " Exclude gitcommit type to avoid doing this in commit message editor
+      " sessions
+      au FileType gitcommit normal! gg0
     endif
 
     " Default to opened folds in gitcommit filetype (having them closed by
