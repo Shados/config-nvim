@@ -275,6 +275,8 @@
 
   " Neosnippets {{{
     let g:neosnippet#snippets_directory = expand('~/.config/nvim/neosnippets/')
+    " Use actual tabstops in snippet files
+    au FileType neosnippet setlocal noexpandtab
   " }}}
 
   " vim-workspace {{{
