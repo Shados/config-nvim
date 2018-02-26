@@ -69,12 +69,12 @@
     Plug 'sbdchd/neoformat' " Code cleanup, linting, and formatting
 
   " Project management
-    " Plug 'fholgado/minibufexpl.vim' " Gives a statusline with buffers on it if you have any hidden buffers
     Plug 'bagrat/vim-workspace' " Statusline with buffers and tabs listed very cleanly
     Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
     Plug 'Shougo/denite.nvim', {'do': function('PlugUpdateRemote')} | Plug 'Shougo/neomru.vim' " Full path fuzzy file/buffer/mru/tag/.../arbitrary list search, bound to <leader>f (for find?)
     Plug 'vim-scripts/TaskList.vim' " Display FIXME/TODO/etc. in handy browseable list pane, bound to <Leader>t, then q to cancel, e to quit browsing but leave tasklist up, <CR> to quit and place cursor on selected task
     Plug 'xolox/vim-misc' | Plug 'xolox/vim-session' " Extended session
+    Plug 'majutsushi/tagbar' " Builds and displays a list of tags (functions, variables, etc.) for the current file, in a sidebar
 
   " Textobjects
     Plug 'wellle/targets.vim' " Upgrades many of vim's inbuilt textobjects and adds some very useful new ones, like a, and i, for working with comma-separated lists
@@ -287,6 +287,16 @@
     let g:workspace_right_trunc_icon = "\uf0a9"
   " }}}
 
+  " Tagbar {{{
+    " Default tag sorting by order of appearance within file (still grouped by
+    " scope)
+    let g:tagbar_sort = 0
+    " Keep all tagbar folds closed initially; better for a top-level overview
+    let g:tagbar_foldlevel = 0
+    " Move cursor to the tagbar window when it is opened
+    let g:tagbar_autofocus = 1
+  " }}}
+
   " General plugin config {{{
     let g:javascript_enable_domhtmlcss = 1 " Enable HTMLL/CSS highlighting in JS files
     " Disable the scrollbars (NERDTree)
@@ -365,6 +375,9 @@
   imap <C-k>     <Plug>(neosnippet_expand_or_jump)
   smap <C-k>     <Plug>(neosnippet_expand_or_jump)
   xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+  " Tagbar
+  nmap <leader>m :TagbarToggle<CR>
 " }}}
 
 " Basic configuration ===================================== {{{
@@ -469,6 +482,9 @@
     " Have nvim jump to the last position when reopening a file
     if has("autocmd")
       au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+      " Exclude gitcommit type to avoid doing this in commit message editor
+      " sessions
+      au FileType gitcommit normal! gg0
     endif
 
     " Default to opened folds in gitcommit filetype (having them closed by
