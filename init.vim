@@ -100,12 +100,12 @@
     Plug 'tpope/vim-repeat' " Plugin-hookable `.`-replacement, user-transparent
     Plug 'chrisbra/SudoEdit.vim' " Lets you do `:SudoWrite`/`:SudoRead`, and also launch vim with `nvim sudo:/etc/fstab`, all of which are nicer+shorter than directly using the tee trick
     Plug 'goldfeld/ctrlr.vim' " Reverse search ex command history ala Bash ctrl-r
+    Plug 'mhinz/vim-startify' " A fancy start screen for vim (mainly for bookmarks and session listing)
 
   " Next-up
     " Plug 'bootleq/ShowMarks' " Better mark handling and display
     Plug 'tpope/vim-fugitive' " git integration for vim, need to watch screencasts. Have activated for now for commit wrapping.
     " Plug 'gregsexton/gitv' " vim-based git viewer, needs fugitive repo viewer/browser
-    " Tags? (tagbar seems interesting?)
     " Plug 'godlygeek/tabular' " Align elements on neighbouring lines, e.g. quickly build text 'tables'
     " Plug 'Keithbsmiley/investigate.vim " Lookup docs on word under cursor, configurable lookup command - this would be extremely useful if I write PageUp
 
@@ -245,6 +245,7 @@
     let g:session_autosave = 'no'
     let g:session_command_aliases = 1 " Session-prefixed command aliases, e.g. OpenSession -> SessionOpen
     let g:session_directory = '~/.local/share/nvim/sessions'
+    let g:session_lock_directory = '~/.local/share/nvim/session-locks'
   " }}}
 
   " deoplete {{{
@@ -297,6 +298,30 @@
     let g:tagbar_foldlevel = 0
     " Move cursor to the tagbar window when it is opened
     let g:tagbar_autofocus = 1
+  " }}}
+
+  " Startify {{{
+    let g:startify_session_dir = '~/.local/share/nvim/sessions'
+    let g:startify_list_order = [
+      \ ['  Bookmarks'], 'bookmarks',
+      \ ['  Sessions'], 'sessions',
+      \ ['  Commands'], 'commands',
+      \ ['  MRU'], 'files',
+      \ ['  MRU Current Tree Files by Modification Time'], 'dir',
+    \ ]
+
+    let g:startify_bookmarks = [
+      \ {'c': '~/.config/nvim/init.vim'},
+      \ {'d': '~/todo.md'},
+    \ ]
+
+    let g:startify_fortune_use_unicode = 1
+
+    " Prepend devicon language logos to file paths
+    " TODO: improve vim-startify to use this for bookmark entries as well
+    function! StartifyEntryFormat()
+      return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+    endfunction
   " }}}
 
   " General plugin config {{{
@@ -493,4 +518,7 @@
     " default doesn't make sense in this context; only really comes up when
     " using e.g. `git commit -v` to get the commit changes displayed)
     autocmd FileType gitcommit normal zR
+
+    " Track window- and buffer-local options in sessions
+    set sessionoptions+=localoptions
 " }}}
