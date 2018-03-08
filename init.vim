@@ -313,6 +313,7 @@
     let g:startify_bookmarks = [
       \ {'c': '~/.config/nvim/init.vim'},
       \ {'d': '~/todo.md'},
+      \ {'x': '~/.tmuxp/'},
     \ ]
 
     let g:startify_fortune_use_unicode = 1
