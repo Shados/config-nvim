@@ -244,8 +244,8 @@
     let g:session_autoload = 'no'
     let g:session_autosave = 'prompt'
     let g:session_command_aliases = 1 " Session-prefixed command aliases, e.g. OpenSession -> SessionOpen
-    let g:session_directory = '~/.local/share/nvim/sessions'
-    let g:session_lock_directory = '~/.local/share/nvim/session-locks'
+    let g:session_directory = $HOME . '/.local/share/nvim/sessions'
+    let g:session_lock_directory = $HOME . '/.local/share/nvim/session-locks'
   " }}}
 
   " deoplete {{{
