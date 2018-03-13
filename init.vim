@@ -101,6 +101,7 @@
     Plug 'chrisbra/SudoEdit.vim' " Lets you do `:SudoWrite`/`:SudoRead`, and also launch vim with `nvim sudo:/etc/fstab`, all of which are nicer+shorter than directly using the tee trick
     Plug 'goldfeld/ctrlr.vim' " Reverse search ex command history ala Bash ctrl-r
     Plug 'mhinz/vim-startify' " A fancy start screen for vim (mainly for bookmarks and session listing)
+    Plug 'tyru/current-func-info.vim' " Adds a set of functions to retrieve the name of the 'current' function in a source file, for the scope the cursor is in
 
   " Next-up
     " Plug 'bootleq/ShowMarks' " Better mark handling and display
