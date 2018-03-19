@@ -268,6 +268,11 @@
       call denite#custom#var('file_rec', 'command',
         \ ['ag', '-l', '--nocolor', '-g', ''])
     endif
+
+    " Change the default sorter for the sources I care about
+    call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])
+    call denite#custom#source('file_mru', 'sorters', ['sorter_sublime'])
+    call denite#custom#source('buffer', 'sorters', ['sorter_sublime'])
   " }}}
 
   " NERDTree {{{
@@ -389,7 +394,7 @@
 
   " Searches through most-recently-used files, recursive file/dir tree, and
   " current buffers
-  nnoremap <leader>f :<C-u>Denite file_mru file_rec buffer<cr>
+  nnoremap <leader>f :<C-u>Denite buffer file_rec file_mru <cr>
 
   " Move forward/backward between flagged warnings & errors
   nmap <silent> <leader>] <Plug>(ale_next_wrap)
