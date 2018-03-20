@@ -102,6 +102,7 @@
     Plug 'goldfeld/ctrlr.vim' " Reverse search ex command history ala Bash ctrl-r
     Plug 'mhinz/vim-startify' " A fancy start screen for vim (mainly for bookmarks and session listing)
     Plug 'tyru/current-func-info.vim' " Adds a set of functions to retrieve the name of the 'current' function in a source file, for the scope the cursor is in
+    Plug 'https://gitlab.com/code-stats/code-stats-vim.git' " Slightly gamifies programming, for shits 'n' giggles
 
   " Next-up
     " Plug 'bootleq/ShowMarks' " Better mark handling and display
@@ -329,6 +330,11 @@
     function! StartifyEntryFormat()
       return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
     endfunction
+  " }}}
+
+  " code-stats-vim {{{
+    " Pull the oh-so-important sekret API key from an environment variable
+    let g:codestats_api_key = $CODESTATS_API_KEY
   " }}}
 
   " General plugin config {{{
