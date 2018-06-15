@@ -431,6 +431,10 @@
     if $TERM == 'rxvt-unicode-256color'
       set termguicolors
     endif
+    " For Mosh
+    if $TERM == 'xterm-256color'
+      set termguicolors
+    endif
     syntax enable
     colorscheme gruvbox
     let g:gruvbox_contrast_dark='hard'
