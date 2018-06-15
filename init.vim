@@ -56,7 +56,7 @@
     Plug 'avdgaag/vim-phoenix'
     Plug 'rust-lang/rust.vim'
     Plug 'xuhdev/vim-latex-live-preview'
-    Plug 'lambdatoast/elm.vim'
+    Plug 'ElmCast/elm-vim'
     Plug 'saltstack/salt-vim'
     Plug 'elzr/vim-json' " Notably, let's you fold on json dict/lists
 
