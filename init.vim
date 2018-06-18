@@ -191,6 +191,11 @@
     autocmd FileType markdown setlocal shiftwidth=4 softtabstop=4 tabstop=4
   " }}}
 
+  " Elm {{{
+    " Set indent/tab for Elm files to 4 spaces
+    autocmd FileType elm setlocal shiftwidth=4 softtabstop=4 tabstop=4
+  " }}}
+
   " ALE {{{
     " TODO: use devicons for error/warning signs?
     " TODO: auto-open any lines in folds with linter errors in them, or at
