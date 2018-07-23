@@ -55,7 +55,7 @@
     Plug 'elixir-lang/vim-elixir'
     Plug 'avdgaag/vim-phoenix'
     Plug 'rust-lang/rust.vim'
-    Plug 'xuhdev/vim-latex-live-preview'
+    Plug 'lervag/vimtex', { 'for': 'tex' }
     Plug 'ElmCast/elm-vim'
     Plug 'saltstack/salt-vim'
     Plug 'elzr/vim-json' " Notably, let's you fold on json dict/lists
@@ -103,6 +103,7 @@
     Plug 'mhinz/vim-startify' " A fancy start screen for vim (mainly for bookmarks and session listing)
     Plug 'tyru/current-func-info.vim' " Adds a set of functions to retrieve the name of the 'current' function in a source file, for the scope the cursor is in
     Plug 'https://gitlab.com/code-stats/code-stats-vim.git' " Slightly gamifies programming, for shits 'n' giggles
+    Plug '907th/vim-auto-save', { 'for': 'tex' } " Buffer auto-writing, which I only want for specific project/file types
 
   " Next-up
     " Plug 'bootleq/ShowMarks' " Better mark handling and display
@@ -342,12 +343,23 @@
     let g:codestats_api_key = $CODESTATS_API_KEY
   " }}}
 
+  " vimtex {{{
+    let g:vimtex_compiler_progname = 'nvr'
+    let g:vimtex_compiler_method = 'latexmk'
+    let g:vimtex_view_method = 'zathura'
+    let g:vimtex_view_use_temp_files = 1
+    " Just to prevent vim occasionally deciding we're using 'plaintex' for no
+    " apparent reason
+    let g:tex_flavor = 'latex'
+    " Turn auto-writing on so we get more of a 'live' PDF preview
+    autocmd FileType tex silent! AutoSaveToggle
+  " }}}
+
   " General plugin config {{{
     let g:javascript_enable_domhtmlcss = 1 " Enable HTMLL/CSS highlighting in JS files
     " Disable the scrollbars (NERDTree)
     set guioptions-=r
     set guioptions-=L
-    let g:livepreview_previewer = 'zathura' " Zathura is pretty much ideal for this purpose, in my experience
   " }}}
 " }}}
 
