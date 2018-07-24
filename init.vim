@@ -50,7 +50,6 @@
     Plug 'gabrielelana/vim-markdown'
     Plug 'LnL7/vim-nix' " Nix syntax highlighting, error checking/linting is handled by ALE
     Plug 'Matt-Deacalion/vim-systemd-syntax'
-    Plug 'RobertAudi/fish.vim'
     Plug 'vim-erlang/vim-erlang-runtime' | Plug 'vim-erlang/vim-erlang-compiler' | Plug 'vim-erlang/vim-erlang-omnicomplete' | Plug 'vim-erlang/vim-erlang-tags'
     Plug 'elixir-lang/vim-elixir'
     Plug 'avdgaag/vim-phoenix'
@@ -59,6 +58,7 @@
     Plug 'ElmCast/elm-vim'
     Plug 'saltstack/salt-vim'
     Plug 'elzr/vim-json' " Notably, let's you fold on json dict/lists
+    Plug 'dag/vim-fish', { 'for': 'fish' }
 
   " Text/code creation & refactoring
     Plug 'Shougo/neosnippet.vim' | Plug 'Shougo/neosnippet-snippets' " Code snippets, the mighty slayer of boilerplate
