@@ -344,10 +344,14 @@
   " }}}
 
   " vimtex {{{
-    let g:vimtex_compiler_progname = 'nvr'
+    let g:vimtex_compiler_progname = '/run/current-system/sw/bin/nvr'
     let g:vimtex_compiler_method = 'latexmk'
+    let g:vimtex_compiler_latexmk = {
+      \ 'build_dir' : 'build',
+      \}
     let g:vimtex_view_method = 'zathura'
     let g:vimtex_view_use_temp_files = 1
+    let g:vimtex_disable_recursive_main_file_detection = 1
     " Just to prevent vim occasionally deciding we're using 'plaintex' for no
     " apparent reason
     let g:tex_flavor = 'latex'
