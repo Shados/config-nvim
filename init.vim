@@ -35,13 +35,14 @@
   " We're using vim-plug for plugin management, as async updates and flexible
   " hooks are both very useful
   call plug#begin("~/.config/nvim/plugged")
-  " Appearance
+  " Appearance & UI
     Plug 'ap/vim-css-color'
     Plug 'skwp/vim-colors-solarized'
     Plug 'morhetz/gruvbox'
     Plug 'itchyny/lightline.vim'
     Plug 'haya14busa/incsearch.vim' " Incremental highlight on incsearch, including of partial regex matches
     Plug 'Yggdroot/indentLine' " Visual display of indent levels
+    " Plug 'Shougo/echodoc.vim' " Displays function signatures from completions in the command line
 
   " Language support and syntax highlighting
     Plug 'w0rp/ale' " Async linting
@@ -62,8 +63,6 @@
 
   " Text/code creation & refactoring
     Plug 'Shougo/neosnippet.vim' | Plug 'Shougo/neosnippet-snippets' " Code snippets, the mighty slayer of boilerplate
-  " Code creation & refactoring
-    Plug 'Shougo/deoplete.nvim', {'do': function('PlugUpdateRemote')} " neocomplete for neovim (irony), still pretty beta but good
     Plug 'tpope/vim-endwise' " Automatic closing of control flow blocks for most languages, eg. `end` inserted after `if` in Ruby
     Plug 'Raimondi/delimitMate' " Automatic context-sensitive closing of quotes, parenthesis, brackets, etc. and related features
     Plug 'sbdchd/neoformat' " Code cleanup, linting, and formatting
@@ -104,6 +103,7 @@
     Plug 'tyru/current-func-info.vim' " Adds a set of functions to retrieve the name of the 'current' function in a source file, for the scope the cursor is in
     Plug 'https://gitlab.com/code-stats/code-stats-vim.git' " Slightly gamifies programming, for shits 'n' giggles
     Plug '907th/vim-auto-save', { 'for': 'tex' } " Buffer auto-writing, which I only want for specific project/file types
+    Plug 'tpope/vim-scriptease' " A vim plugin to help with writing vim plugins; most notably :PP acts as a decent REPL
 
   " Next-up
     " Plug 'bootleq/ShowMarks' " Better mark handling and display
@@ -200,17 +200,75 @@
   " ALE {{{
     " TODO: use devicons for error/warning signs?
     " TODO: auto-open any lines in folds with linter errors in them, or at
-    " least do so on ale_next/previous_wrap'ing to them...
+    " least do so on changing to their location-list position to them...
     " Req: install desired linters/style checkers (globally or in the
     " virtualenv you're running from). flake8 is good.
-    let g:ale_fixers = {
-    \   'python': ['yapf'],
-    \ }
 
     " Clear the warning buffer immediately on any change (to prevent
     " highlights on the edited line from falling out of sync and throwing me
     " off)
     autocmd TextChanged,TextChangedI * ALEResetBuffer
+
+    " To still make it easy to know if there is *something* in the gutter *somewhere*
+    let g:ale_change_sign_column_color = 1
+
+    " Enable completion where LSP servers are available
+    let g:ale_completion_enabled = 1
+
+    " Per-language, non-LSP config
+    let g:ale_fixers = {}
+    let g:ale_linters = {}
+    " TODO LaTeX prose linting?
+    " Elm
+      let g:ale_linters['elm'] = ['elm-make']
+      let g:ale_fixers['elm'] = ['elm-format']
+      autocmd FileType elm let b:ale_fix_on_save = 1
+    " Lua
+      let g:ale_linters['lua'] = ['lua', 'luacheck']
+    " Python
+      let g:ale_fixers['python'] = ['black', 'isort']
+      autocmd FileType python let b:ale_fix_on_save = 1
+      " Black-compatible isort config
+      let g:ale_python_isort_options = '--multi-line=3 --trailing-comma --force-grid-wrap=0 --combine-as --line-width=88'
+      " Cython linting
+      let g:ale_linters['cython'] = ['cython']
+    " Nix
+      let g:ale_linters['nix'] = ['nix-instantiate']
+    " VimL/vimscript
+      let g:ale_linters['vim'] = ['vint']
+
+    " Configure Language Servers
+    " TODO configure as many as possible to use systemd socket-activated user
+    " service versions, to share resources
+    " C/C++/ObjC/ObjC++
+    if executable('clangd')
+      let g:ale_linters['c'] = ['clangd']
+      let g:ale_linters['cpp'] = ['clangd']
+      let g:ale_linters['objc'] = ['clangd']
+      let g:ale_linters['objcpp'] = ['clangd']
+    endif
+    " Go
+    if executable('go-langserver')
+      let g:ale_linters['go'] = ['go-langserver']
+    endif
+    " Haskell
+    if executable('hie-wrapper')
+      let g:ale_linters['haskell'] = ['hie']
+      let g:ale_haskell_hie_executable = 'hie-wrapper'
+    endif
+    " Python
+    if executable('pyls')
+      let g:ale_linters['python'] = ['pyls']
+    endif
+    " Ruby
+    " ALE only supports TCP socket mode for solargraph
+    " if executable('solargraph')
+    "   let g:ale_linters['ruby'] = ['solargraph']
+    " endif
+    " Rust
+    if executable('rls')
+      let g:ale_linters['rust'] = ['rls']
+    endif
   " }}}
 
   " indentLine {{{
@@ -254,11 +312,6 @@
     let g:session_command_aliases = 1 " Session-prefixed command aliases, e.g. OpenSession -> SessionOpen
     let g:session_directory = $HOME . '/.local/share/nvim/sessions'
     let g:session_lock_directory = $HOME . '/.local/share/nvim/session-locks'
-  " }}}
-
-  " deoplete {{{
-    let g:deoplete#enable_at_startup = 1 " Enable deoplete
-    let g:deoplete#enable_smart_case = 1 " Use smartcase
   " }}}
 
   " Denite {{{
@@ -357,6 +410,12 @@
     let g:tex_flavor = 'latex'
     " Turn auto-writing on so we get more of a 'live' PDF preview
     autocmd FileType tex silent! AutoSaveToggle
+  " }}}
+
+  " echodoc.vim {{{
+    " So the current mode indicator in the command line does not overwrite the
+    " function signature display
+    set noshowmode
   " }}}
 
   " General plugin config {{{
@@ -505,6 +564,8 @@
   " Previous two only apply when `wrap` is off, something I occasionally need to do
   set mouse="c" " Disable mouse cursor movement
   set modeline " Support modelines in files
+  " Always keep the gutter open, constant expanding/contracting gets annoying fast
+  set signcolumn=yes
 
   " Set netrwhist home location to prevent .netrwhist being made in
   " .config/nvim/ -- it is data not config
@@ -559,4 +620,7 @@
 
     " Track window- and buffer-local options in sessions
     set sessionoptions+=localoptions
+
+    " TODO when working on code inside a per-project virtualenv or nix.shell,
+    " automatically detect and use the python from the project env
 " }}}
