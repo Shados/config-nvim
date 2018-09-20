@@ -77,7 +77,16 @@ scriptencoding "utf-8"
     Plug 'prabirshrestha/asyncomplete.vim' " Asynchronous vimL-native autocompletion
 
     " Completion sources
+      Plug 'prabirshrestha/asyncomplete-buffer.vim'
+      if !executable('clangd') && executable('ctags')
+        Plug 'ludovicchabant/vim-gutentags' | Plug 'prabirshrestha/asyncomplete-tags.vim'
+      endif
+      Plug 'prabirshrestha/asyncomplete-file.vim'
+      if !executable('rls') && executable('racer')
+        Plug 'keremc/asyncomplete-racer.vim' " Provides Rust completions, but only if no RLS language server
+      endif
       Plug 'prabirshrestha/asyncomplete-lsp.vim'
+      Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 
   " Project management
     Plug 'bagrat/vim-workspace' " Statusline with buffers and tabs listed very cleanly
@@ -402,7 +411,57 @@ scriptencoding "utf-8"
 
   " asyncomplete.vim {{{
     let g:asyncomplete_auto_popup = 1
-    let g:asyncomplete_smart_completion = 1
+    " Fuzzy completion is fucking distracting, disable it
+    let g:asyncomplete_smart_completion = 0
+    " Mainly useful to remove duplicate entries from the `buffer` source in
+    " favour of e.g. LSP-provided entries
+    let g:asyncomplete_remove_duplicates = 1
+    " Less spammy completion
+    set shortmess+=c
+
+    " Register sources
+    " Use explicit priorities to control ordering and deduplication of entries
+    " Use a variable for this one to share it between here and the LSP
+    " configuration
+    let s:asyncomplete_language_priority = 3
+    augroup sn
+      au User asyncomplete_setup call
+        \ asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+          \ 'name': 'buffer',
+          \ 'whitelist': ['*'],
+          \ 'priority': 0,
+          \ 'completor': function('asyncomplete#sources#buffer#completor'),
+          \ }))
+      au User asyncomplete_setup call
+        \ asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+          \ 'name': 'file',
+          \ 'whitelist': ['*'],
+          \ 'priority': 1,
+          \ 'completor': function('asyncomplete#sources#file#completor'),
+          \ }))
+      au User asyncomplete_setup call
+        \ asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
+          \ 'name': 'neosnippet',
+          \ 'whitelist': ['*'],
+          \ 'priority': 2,
+          \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
+          \ }))
+      if !executable('clangd') && executable('ctags')
+        au User asyncomplete_setup call
+          \ asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
+            \ 'name': 'tags',
+            \ 'whitelist': ['c'],
+            \ 'priority': s:asyncomplete_language_priority,
+            \ 'completor': function('asyncomplete#sources#tags#completor'),
+            \ }))
+      endif
+      if !executable('rls') && executable('racer')
+        au User asyncomplete_setup call
+          \ asyncomplete#register_source(asyncomplete#sources#racer#get_source_options({
+            \ 'priority': s:asyncomplete_language_priority,
+            \ }))
+      endif
+    augroup END
   " }}}
 
   " vim-lsp {{{
@@ -417,6 +476,7 @@ scriptencoding "utf-8"
           \ 'name': a:exec,
           \ 'cmd': a:cmd,
           \ 'whitelist': a:filetypes,
+          \ 'priority': s:asyncomplete_language_priority,
           \ }
       let l:opts = extend(l:base_opts, l:extra_opts)
       if executable(a:exec)
@@ -433,7 +493,7 @@ scriptencoding "utf-8"
     " TODO implement socket-based LSP support in vim-lsp...
     " TODO configure as many as possible to use systemd socket-activated user
     " service versions, to share resources
-    augroup lsp
+    augroup sn
       au User lsp_setup call s:register_lsp(
         \ 'clangd',
         \ {server_info -> ['clangd']},
