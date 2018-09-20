@@ -93,7 +93,7 @@ scriptencoding "utf-8"
     Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
     Plug 'Shougo/denite.nvim', {'do': function('PlugUpdateRemote')} | Plug 'Shougo/neomru.vim' " Full path fuzzy file/buffer/mru/tag/.../arbitrary list search, bound to <leader>f (for find?)
     Plug 'vim-scripts/TaskList.vim' " Display FIXME/TODO/etc. in handy browseable list pane, bound to <Leader>t, then q to cancel, e to quit browsing but leave tasklist up, <CR> to quit and place cursor on selected task
-    Plug 'xolox/vim-misc' | Plug 'xolox/vim-session' " Extended session
+    Plug 'xolox/vim-misc' | Plug 'Shados/vim-session', {'branch': 'shados-local'} " Extended session management, auto-save/load
     Plug 'majutsushi/tagbar' " Builds and displays a list of tags (functions, variables, etc.) for the current file, in a sidebar
 
   " Textobjects
@@ -300,6 +300,7 @@ scriptencoding "utf-8"
   " vim-session {{{
     let g:session_autoload = 'no'
     let g:session_autosave = 'prompt'
+    let g:session_autosave_only_with_explicit_session = 1
     let g:session_command_aliases = 1 " Session-prefixed command aliases, e.g. OpenSession -> SessionOpen
     let g:session_directory = $HOME . '/.local/share/nvim/sessions'
     let g:session_lock_directory = $HOME . '/.local/share/nvim/session-locks'
