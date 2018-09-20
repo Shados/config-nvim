@@ -502,7 +502,7 @@ scriptencoding "utf-8"
       au User lsp_setup call s:register_lsp(
         \ 'css-languageserver',
         \ {server_info -> [&shell, &shellcmdflag, 'css-languageserver --stdio']},
-        \ ['css', 'less', 'sass'])
+        \ ['css', 'less', 'sass', 'scss'])
       au User lsp_setup call s:register_lsp(
         \ 'go-langserver',
         \ {server_info -> ['go-langserver', '-mode', 'stdio']},
