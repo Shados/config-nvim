@@ -1,5 +1,12 @@
+scriptencoding "utf-8"
 " Early-load settings {{{
   let mapleader = "\<Space>"
+  " Define my autocmd group for later use
+  augroup sn
+    " Clear any existing autocmds (e.g. if re-sourcing init.vim)
+    autocmd!
+  augroup END
+
 
   " Customize vim-workspace colours based on gruvbox colours
   function g:WorkspaceSetCustomColors()
@@ -16,12 +23,12 @@
 
 " Plugin functions ================================== {{{
   function! PlugUpdateRemote(info)
-    if a:info.status != 'unchanged' || a:info.force
+    if a:info.status !=# 'unchanged' || a:info.force
       UpdateRemotePlugins
     endif
   endfunction
   function! PlugUpdateRustRemote(info)
-    if a:info.status != 'unchanged' || a:info.force
+    if a:info.status !=# 'unchanged' || a:info.force
       !cargo build --release
       PlugUpdateRemote(info)
     endif
@@ -30,11 +37,11 @@
 
 " Plugins =========================================== {{{
   " Load locally-managed plugins
-  set rtp+=~/.config/nvim/local/*
+  set runtimepath+=~/.config/nvim/local/*
 
   " We're using vim-plug for plugin management, as async updates and flexible
   " hooks are both very useful
-  call plug#begin("~/.config/nvim/plugged")
+  call plug#begin('~/.config/nvim/plugged')
   " Appearance & UI
     Plug 'ap/vim-css-color'
     Plug 'skwp/vim-colors-solarized'
@@ -141,35 +148,35 @@
 
     function! LLMode()
       let fname = expand('%:t')
-      return fname == '__Tagbar__' ? 'Tagbar' :
-            \ fname == 'ControlP' ? 'CtrlP' :
-            \ lightline#mode() == 'NORMAL' ? 'N' :
-            \ lightline#mode() == 'INSERT' ? 'I' :
-            \ lightline#mode() == 'VISUAL' ? 'V' :
-            \ lightline#mode() == 'V-LINE' ? 'V' :
-            \ lightline#mode() == 'V-BLOCK' ? 'V' :
-            \ lightline#mode() == 'REPLACE' ? 'R' : lightline#mode()
+      return fname ==# '__Tagbar__' ? 'Tagbar' :
+            \ fname ==# 'ControlP' ? 'CtrlP' :
+            \ lightline#mode() ==# 'NORMAL' ? 'N' :
+            \ lightline#mode() ==# 'INSERT' ? 'I' :
+            \ lightline#mode() ==# 'VISUAL' ? 'V' :
+            \ lightline#mode() ==# 'V-LINE' ? 'V' :
+            \ lightline#mode() ==# 'V-BLOCK' ? 'V' :
+            \ lightline#mode() ==# 'REPLACE' ? 'R' : lightline#mode()
     endfunction
 
     function! LLModified()
-      if &filetype == "help"
-        return ""
+      if &filetype ==# 'help'
+        return ''
       elseif &modified
-        return "+"
+        return '+'
       elseif &modifiable
-        return ""
+        return ''
       else
-        return ""
+        return ''
       endif
     endfunction
 
     function! LLReadonly()
-      if &filetype == "help"
-        return ""
+      if &filetype ==# 'help'
+        return ''
       elseif &readonly
-        return "!"
+        return '!'
       else
-        return ""
+        return ''
       endif
     endfunction
 
@@ -178,9 +185,9 @@
     endfunction
 
     function! LLFilename()
-      return ('' != LLReadonly() ? LLReadonly() . ' ' : '') .
-            \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
-            \ ('' != LLModified() ? ' ' . LLModified() : '')
+      return ('' !=# LLReadonly() ? LLReadonly() . ' ' : '') .
+            \ ('' !=# expand('%:t') ? expand('%:t') : '[No Name]') .
+            \ ('' !=# LLModified() ? ' ' . LLModified() : '')
     endfunction
   " }}}
 
@@ -190,16 +197,16 @@
     " however, and simply disabling folding in general does not stop that.
     let g:markdown_enable_folding = 1
     " Automatically unfold all so we don't start at 100% folded :)
-    autocmd FileType markdown normal zR
+    autocmd sn FileType markdown normal zR
     " Disable spellcheck (it's bad, and I'm not)
     let g:markdown_enable_spell_checking = 0
     " Set indent/tab for markdown files to 4 spaces
-    autocmd FileType markdown setlocal shiftwidth=4 softtabstop=4 tabstop=4
+    autocmd sn FileType markdown setlocal shiftwidth=4 softtabstop=4 tabstop=4
   " }}}
 
   " Elm {{{
     " Set indent/tab for Elm files to 4 spaces
-    autocmd FileType elm setlocal shiftwidth=4 softtabstop=4 tabstop=4
+    autocmd sn FileType elm setlocal shiftwidth=4 softtabstop=4 tabstop=4
   " }}}
 
   " ALE {{{
@@ -212,7 +219,7 @@
     " Clear the warning buffer immediately on any change (to prevent
     " highlights on the edited line from falling out of sync and throwing me
     " off)
-    autocmd TextChanged,TextChangedI * ALEResetBuffer
+    autocmd sn TextChanged,TextChangedI * ALEResetBuffer
 
     " To still make it easy to know if there is *something* in the gutter *somewhere*
     let g:ale_change_sign_column_color = 1
@@ -227,12 +234,12 @@
     " Elm
       let g:ale_linters['elm'] = ['elm-make']
       let g:ale_fixers['elm'] = ['elm-format']
-      autocmd FileType elm let b:ale_fix_on_save = 1
+      autocmd sn FileType elm let b:ale_fix_on_save = 1
     " Lua
       let g:ale_linters['lua'] = ['lua', 'luacheck']
     " Python
       let g:ale_fixers['python'] = ['black', 'isort']
-      autocmd FileType python let b:ale_fix_on_save = 1
+      autocmd sn FileType python let b:ale_fix_on_save = 1
       " Requires e.g. ~/.config/flake8 for Black's line-width
       " Black-compatible isort config
       let g:ale_python_black_options = '-l 80'
@@ -262,9 +269,9 @@
 
   " vim-json {{{
     " Set foldmethod to syntax so we can fold json dicts and lists
-    autocmd FileType json setlocal foldmethod=syntax 
+    autocmd sn FileType json setlocal foldmethod=syntax 
     " Then automatically unfold all so we don't start at 100% folded :)
-    autocmd FileType json normal zR
+    autocmd sn FileType json normal zR
     " Don't conceal quote marks, that's fucking horrific. Who the hell would
     " choose to default to that behaviour? Do they only ever read json, never
     " write it?! Hell, even then it's still problematic!
@@ -317,7 +324,7 @@
   " Neosnippets {{{
     let g:neosnippet#snippets_directory = expand('~/.config/nvim/neosnippets/')
     " Use actual tabstops in snippet files
-    au FileType neosnippet setlocal noexpandtab
+    au sn FileType neosnippet setlocal noexpandtab
   " }}}
 
   " vim-workspace {{{
@@ -383,7 +390,7 @@
     " apparent reason
     let g:tex_flavor = 'latex'
     " Turn auto-writing on so we get more of a 'live' PDF preview
-    autocmd FileType tex silent! AutoSaveToggle
+    autocmd sn FileType tex silent! AutoSaveToggle
   " }}}
 
   " echodoc.vim {{{
@@ -543,17 +550,17 @@
 
 " Basic configuration ===================================== {{{
   " Resize splits when the window is resized
-  au VimResized * exe "normal! \<c-w>="
+  au sn VimResized * exe "normal! \<c-w>="
 
   " Theming
     if !empty($TMUX)
       set termguicolors
     endif
-    if $TERM == 'rxvt-unicode-256color'
+    if $TERM ==# 'rxvt-unicode-256color'
       set termguicolors
     endif
     " For Mosh
-    if $TERM == 'xterm-256color'
+    if $TERM ==# 'xterm-256color'
       set termguicolors
     endif
     syntax enable
@@ -612,7 +619,7 @@
   " .config/nvim/ -- it is data not config
   " TODO: Fix upstream in neovim / file bug report + need standard way of
   " getting XDG_DATA_HOME reliably
-  let g:netrw_home=$HOME . "/.local/share/nvim"
+  let g:netrw_home=$HOME . '/.local/share/nvim'
 " }}}
 
 " Advanced configuration ================================== {{{
@@ -629,11 +636,11 @@
     " Keep undo history across sessions by storing it in a file
     set undodir=~/.local/share/nvim/undo//
     if !empty(glob(&undodir))
-      silent call mkdir(&undodir, "p")
+      silent call mkdir(&undodir, 'p')
     endif
     set backupdir=~/.local/share/nvim/backup//
     if !empty(glob(&backupdir))
-      silent call mkdir(&backupdir, "p")
+      silent call mkdir(&backupdir, 'p')
     endif
     set undofile
     set backup
@@ -651,17 +658,17 @@
       set wildignore+=*.png,*.jpg,*.gif
 
     " Have nvim jump to the last position when reopening a file
-    if has("autocmd")
-      au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    if has('autocmd')
+      au sn BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
       " Exclude gitcommit type to avoid doing this in commit message editor
       " sessions
-      au FileType gitcommit normal! gg0
+      au sn FileType gitcommit normal! gg0
     endif
 
     " Default to opened folds in gitcommit filetype (having them closed by
     " default doesn't make sense in this context; only really comes up when
     " using e.g. `git commit -v` to get the commit changes displayed)
-    autocmd FileType gitcommit normal zR
+    autocmd sn FileType gitcommit normal zR
 
     " Track window- and buffer-local options in sessions
     set sessionoptions+=localoptions
