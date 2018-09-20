@@ -244,6 +244,7 @@ scriptencoding "utf-8"
       " Black-compatible isort config
       let g:ale_python_black_options = '-l 80'
       let g:ale_python_isort_options = '--multi-line=3 --trailing-comma --force-grid-wrap=0 --combine-as --line-width=80'
+      let g:ale_python_auto_pipenv = 0
       " Cython linting
       let g:ale_linters['cython'] = ['cython']
     " Nix
