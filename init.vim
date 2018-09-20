@@ -60,12 +60,17 @@
     Plug 'saltstack/salt-vim'
     Plug 'elzr/vim-json' " Notably, let's you fold on json dict/lists
     Plug 'dag/vim-fish', { 'for': 'fish' }
+    Plug 'prabirshrestha/async.vim' | Plug 'prabirshrestha/vim-lsp' " Language Server Protocol client, for (the good subset of) IDE features, in pure vimL
 
   " Text/code creation & refactoring
     Plug 'Shougo/neosnippet.vim' | Plug 'Shougo/neosnippet-snippets' " Code snippets, the mighty slayer of boilerplate
     Plug 'tpope/vim-endwise' " Automatic closing of control flow blocks for most languages, eg. `end` inserted after `if` in Ruby
     Plug 'Raimondi/delimitMate' " Automatic context-sensitive closing of quotes, parenthesis, brackets, etc. and related features
     Plug 'sbdchd/neoformat' " Code cleanup, linting, and formatting
+    Plug 'prabirshrestha/asyncomplete.vim' " Asynchronous vimL-native autocompletion
+
+    " Completion sources
+      Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
   " Project management
     Plug 'bagrat/vim-workspace' " Statusline with buffers and tabs listed very cleanly
@@ -228,47 +233,16 @@
     " Python
       let g:ale_fixers['python'] = ['black', 'isort']
       autocmd FileType python let b:ale_fix_on_save = 1
+      " Requires e.g. ~/.config/flake8 for Black's line-width
       " Black-compatible isort config
-      let g:ale_python_isort_options = '--multi-line=3 --trailing-comma --force-grid-wrap=0 --combine-as --line-width=88'
+      let g:ale_python_black_options = '-l 80'
+      let g:ale_python_isort_options = '--multi-line=3 --trailing-comma --force-grid-wrap=0 --combine-as --line-width=80'
       " Cython linting
       let g:ale_linters['cython'] = ['cython']
     " Nix
       let g:ale_linters['nix'] = ['nix-instantiate']
     " VimL/vimscript
       let g:ale_linters['vim'] = ['vint']
-
-    " Configure Language Servers
-    " TODO configure as many as possible to use systemd socket-activated user
-    " service versions, to share resources
-    " C/C++/ObjC/ObjC++
-    if executable('clangd')
-      let g:ale_linters['c'] = ['clangd']
-      let g:ale_linters['cpp'] = ['clangd']
-      let g:ale_linters['objc'] = ['clangd']
-      let g:ale_linters['objcpp'] = ['clangd']
-    endif
-    " Go
-    if executable('go-langserver')
-      let g:ale_linters['go'] = ['go-langserver']
-    endif
-    " Haskell
-    if executable('hie-wrapper')
-      let g:ale_linters['haskell'] = ['hie']
-      let g:ale_haskell_hie_executable = 'hie-wrapper'
-    endif
-    " Python
-    if executable('pyls')
-      let g:ale_linters['python'] = ['pyls']
-    endif
-    " Ruby
-    " ALE only supports TCP socket mode for solargraph
-    " if executable('solargraph')
-    "   let g:ale_linters['ruby'] = ['solargraph']
-    " endif
-    " Rust
-    if executable('rls')
-      let g:ale_linters['rust'] = ['rls']
-    endif
   " }}}
 
   " indentLine {{{
@@ -416,6 +390,73 @@
     " So the current mode indicator in the command line does not overwrite the
     " function signature display
     set noshowmode
+  " }}}
+
+  " asyncomplete.vim {{{
+    let g:asyncomplete_auto_popup = 1
+    let g:asyncomplete_smart_completion = 1
+  " }}}
+
+  " vim-lsp {{{
+    let g:lsp_signs_enabled = 1
+    let g:lsp_diagnostics_echo_cursor = 1
+    " Ensure ale_linters and ale_fixers exist before setting keys on them
+    let g:ale_linters = get(g:, 'ale_linters', {})
+    let g:ale_fixers = get(g:, 'ale_fixers', {})
+    function! s:register_lsp(exec, cmd, filetypes, ...) abort
+      let l:extra_opts = a:0 >= 1 ? a:1 : {}
+      let l:base_opts = {
+          \ 'name': a:exec,
+          \ 'cmd': a:cmd,
+          \ 'whitelist': a:filetypes,
+          \ }
+      let l:opts = extend(l:base_opts, l:extra_opts)
+      if executable(a:exec)
+        call lsp#register_server(l:opts)
+        " Disable ALE linting and fixing for the LSP-supported filetypes
+        for l:ft in a:filetypes
+          let g:ale_linters[l:ft] = []
+          let g:ale_fixers[l:ft] = []
+        endfor
+      endif
+    endfunction
+
+    " Register/configure Language Servers
+    " TODO implement socket-based LSP support in vim-lsp...
+    " TODO configure as many as possible to use systemd socket-activated user
+    " service versions, to share resources
+    augroup lsp
+      au User lsp_setup call s:register_lsp(
+        \ 'clangd',
+        \ {server_info -> ['clangd']},
+        \ ['c', 'cpp', 'objc', 'objcpp'])
+      au User lsp_setup call s:register_lsp(
+        \ 'css-languageserver',
+        \ {server_info -> [&shell, &shellcmdflag, 'css-languageserver --stdio']},
+        \ ['css', 'less', 'sass'])
+      au User lsp_setup call s:register_lsp(
+        \ 'go-langserver',
+        \ {server_info -> ['go-langserver', '-mode', 'stdio']},
+        \ ['go'])
+      au User lsp_setup call s:register_lsp(
+        \ 'hie-wrapper',
+        \ {server_info -> [&shell, &shellcmdflag, 'hie-wrapper --lsp']},
+        \ ['haskell'])
+      " TODO: configure to auto-fix with black and isort
+      au User lsp_setup call s:register_lsp(
+        \ 'pyls',
+        \ {server_info -> ['pyls']},
+        \ ['python'])
+      au User lsp_setup call s:register_lsp(
+        \ 'solargraph',
+        \ {server_info -> [&shell, &shellcmdflag, 'solargraph stdio']},
+        \ ['ruby'],
+        \ {'initialization_options': {"diagnostics": "true"}})
+      au User lsp_setup call s:register_lsp(
+        \ 'rls',
+        \ {server_info -> ['rustup', 'run', 'nightly', 'rls']},
+        \ ['rust'])
+    augroup END
   " }}}
 
   " General plugin config {{{
