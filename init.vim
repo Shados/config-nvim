@@ -506,6 +506,10 @@ scriptencoding "utf-8"
     " service versions, to share resources
     augroup sn
       au User lsp_setup call s:register_lsp(
+        \ 'bash-language-server',
+        \ {server_info -> [&shell, &shellcmdflag, 'bash-language-server start']},
+        \ ['sh'])
+      au User lsp_setup call s:register_lsp(
         \ 'clangd',
         \ {server_info -> ['clangd']},
         \ ['c', 'cpp', 'objc', 'objcpp'])
