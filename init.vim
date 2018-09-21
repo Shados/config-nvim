@@ -78,6 +78,7 @@ scriptencoding "utf-8"
 
     " Completion sources
       Plug 'prabirshrestha/asyncomplete-buffer.vim'
+      Plug 'prabirshrestha/asyncomplete-gocode.vim' " For some reason, go-langserver does neither diagnostics nor completion
       if !executable('clangd') && executable('ctags')
         Plug 'ludovicchabant/vim-gutentags' | Plug 'prabirshrestha/asyncomplete-tags.vim'
       endif
@@ -447,6 +448,15 @@ scriptencoding "utf-8"
           \ 'priority': 2,
           \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
           \ }))
+      if executable('gocode')
+        au User asyncomplete_setup call
+          \ asyncomplete#register_source(asyncomplete#sources#gocode#get_source_options({
+            \ 'name': 'gocode',
+            \ 'whitelist': ['go'],
+            \ 'priority': s:asyncomplete_language_priority,
+            \ 'completor': function('asyncomplete#sources#gocode#completor'),
+            \ }))
+      endif
       if !executable('clangd') && executable('ctags')
         au User asyncomplete_setup call
           \ asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
