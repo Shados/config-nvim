@@ -81,7 +81,6 @@ scriptencoding "utf-8"
     Plug 'Shougo/neosnippet.vim' | Plug 'Shougo/neosnippet-snippets' " Code snippets, the mighty slayer of boilerplate
     Plug 'tpope/vim-endwise' " Automatic closing of control flow blocks for most languages, eg. `end` inserted after `if` in Ruby
     Plug 'Raimondi/delimitMate' " Automatic context-sensitive closing of quotes, parenthesis, brackets, etc. and related features
-    Plug 'sbdchd/neoformat' " Code cleanup, linting, and formatting
     Plug 'roxma/nvim-yarp' | Plug 'ncm2/ncm2' " Autocompletion with somewhat less memory use than deoplete (less Python processes)
 
     " Completion sources
@@ -422,15 +421,6 @@ scriptencoding "utf-8"
     " Set the indent line's colour to a subtle, faded grey-brown
     let g:indentLine_color_gui = '#474038'
     let g:indentLine_char = '▏'
-  " }}}
-
-  " neoformat {{{
-    " Considered using yapf Python formatter, but it creates some *really*
-    " awkward constructs, frankly. 
-    " Some related GH issue #s: 465, 443, 414, 390, 379, 377...
-    " Conclusion: yapf needs way more knobs to be useful to me. Or I'm too
-    " particular about how I like my code formatted.
-    let g:neoformat_enabled_python = ['isort'] " :Neoformat in Python file to sort imports, needs 'isort' executable available
   " }}}
 
   " vim-json {{{
