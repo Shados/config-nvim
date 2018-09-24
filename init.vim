@@ -645,8 +645,8 @@ scriptencoding "utf-8"
     " Helper function for registering language servers
     function! s:register_lsp_server(exec, server_info, filetypes, ...) abort
       " Handle varargs
-      let l:ale_fixer_whitelist = a:0 >= 1 ? a:1 : []
-      let l:ale_linter_whitelist = a:0 >= 2 ? a:2 : []
+      " let l:ale_fixer_whitelist = a:0 >= 1 ? a:1 : []
+      let l:ale_linter_whitelist = a:0 >= 1 ? a:1 : []
 
       if executable(a:exec)
         for l:ft in a:filetypes
@@ -654,9 +654,9 @@ scriptencoding "utf-8"
           if ! snlib#list#within(l:ale_linter_whitelist, l:ft)
             let g:ale_linters[l:ft] = []
           endif
-          if ! snlib#list#within(l:ale_fixer_whitelist, l:ft)
-            let g:ale_fixers[l:ft] = []
-          endif
+          " if ! snlib#list#within(l:ale_fixer_whitelist, l:ft)
+          "   let g:ale_fixers[l:ft] = []
+          " endif
         endfor
       endif
     endfunction
@@ -693,7 +693,6 @@ scriptencoding "utf-8"
       \ 'pyls',
       \ ['pyls'],
       \ ['python'],
-      \ ['python']
       \ )
     call s:register_lsp_server(
       \ 'solargraph',
