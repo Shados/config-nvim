@@ -1,0 +1,8 @@
+{
+  "pyls": {
+    "configurationSources": [ "flake8" ]
+  },
+  "solargraph": {
+    "diagnostics": true
+  }
+}
