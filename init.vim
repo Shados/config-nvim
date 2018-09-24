@@ -639,6 +639,10 @@ scriptencoding "utf-8"
   " }}}
 
   " LanguageClient-neovim {{{
+    " Useful for debugging language server behaviour
+    let g:LanguageClient_loggingLevel = 'INFO'
+    let g:LanguageClient_loggingFile = '/tmp/LanguageClient_client.log'
+    let g:LanguageClient_serverStderr = '/tmp/LanguageClient_server.log'
     " Path to the LSP settings file
     let g:LanguageClient_settingsPath = expand('~/.config/nvim/lsp_settings.json')
     " Ensure these exist before setting anything in them
@@ -693,9 +697,13 @@ scriptencoding "utf-8"
       \ ['hie-wrapper', '--lsp'],
       \ ['haskell']
       \ )
+    " TODO: Remove from linter whitelist once
+    " https://github.com/palantir/python-language-server/issues/190 is
+    " resolved
     call s:register_lsp_server(
       \ 'pyls',
-      \ ['pyls'],
+      \ ['pyls', '-vv'],
+      \ ['python'],
       \ ['python'],
       \ )
     call s:register_lsp_server(

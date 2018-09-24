@@ -1,7 +1,8 @@
 {
   "pyls": {
-    "plugs": {
+    "plugins": {
       "pycodestyle": {
+        "enabled": false,
         "ignore": [
           "E501"
         ],
@@ -16,8 +17,8 @@
       }
     },
     "configurationSources": [
-      "flake8",
-      "pycodestyle"
+      "pycodestyle",
+      "flake8"
     ]
   },
   "solargraph": {
