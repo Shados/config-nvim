@@ -1,6 +1,24 @@
 {
   "pyls": {
-    "configurationSources": [ "flake8" ]
+    "plugs": {
+      "pycodestyle": {
+        "ignore": [
+          "E501"
+        ],
+        "select": [
+          "C",
+          "E",
+          "F",
+          "W",
+          "B",
+          "B950"
+        ]
+      }
+    },
+    "configurationSources": [
+      "flake8",
+      "pycodestyle"
+    ]
   },
   "solargraph": {
     "diagnostics": true

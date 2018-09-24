@@ -2,7 +2,7 @@ scriptencoding "utf-8"
 " Early-load settings {{{
   let mapleader = "\<Space>"
   " Define my autocmd group for later use
-  augroup sn
+  augroup vimrc
     " Clear any existing autocmds (e.g. if re-sourcing init.vim)
     autocmd!
   augroup END
@@ -149,7 +149,7 @@ scriptencoding "utf-8"
 
 " Basic configuration ===================================== {{{
   " Resize splits when the window is resized
-  autocmd sn VimResized * exe "normal! \<c-w>="
+  autocmd vimrc VimResized * exe "normal! \<c-w>="
 
   " Theming
     if !empty($TMUX)
@@ -257,15 +257,15 @@ scriptencoding "utf-8"
       set wildignore+=*.png,*.jpg,*.gif
 
     " Have nvim jump to the last position when reopening a file
-    autocmd sn BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    autocmd vimrc BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
     " Exclude gitcommit type to avoid doing this in commit message editor
     " sessions
-    autocmd sn FileType gitcommit normal! gg0
+    autocmd vimrc FileType gitcommit normal! gg0
 
     " Default to opened folds in gitcommit filetype (having them closed by
     " default doesn't make sense in this context; only really comes up when
     " using e.g. `git commit -v` to get the commit changes displayed)
-    autocmd sn FileType gitcommit normal zR
+    autocmd vimrc FileType gitcommit normal zR
 
     " Track window- and buffer-local options in sessions
     set sessionoptions+=localoptions
@@ -342,16 +342,16 @@ scriptencoding "utf-8"
     " however, and simply disabling folding in general does not stop that.
     let g:markdown_enable_folding = 1
     " Automatically unfold all so we don't start at 100% folded :)
-    autocmd sn FileType markdown normal zR
+    autocmd vimrc FileType markdown normal zR
     " Disable spellcheck (it's bad, and I'm not)
     let g:markdown_enable_spell_checking = 0
     " Set indent/tab for markdown files to 4 spaces
-    autocmd sn FileType markdown setlocal shiftwidth=4 softtabstop=4 tabstop=4
+    autocmd vimrc FileType markdown setlocal shiftwidth=4 softtabstop=4 tabstop=4
   " }}}
 
   " Elm {{{
     " Set indent/tab for Elm files to 4 spaces
-    autocmd sn FileType elm setlocal shiftwidth=4 softtabstop=4 tabstop=4
+    autocmd vimrc FileType elm setlocal shiftwidth=4 softtabstop=4 tabstop=4
   " }}}
 
   " ALE {{{
@@ -364,7 +364,7 @@ scriptencoding "utf-8"
     " Clear the warning buffer immediately on any change (to prevent
     " highlights on the edited line from falling out of sync and throwing me
     " off)
-    autocmd sn TextChanged,TextChangedI * ALEResetBuffer
+    autocmd vimrc TextChanged,TextChangedI * ALEResetBuffer
 
     " To still make it easy to know if there is *something* in the gutter *somewhere*
     let g:ale_change_sign_column_color = 1
@@ -391,7 +391,7 @@ scriptencoding "utf-8"
     " Elm
       call s:register_ale_tool(g:ale_linters, 'elm', 'elm-make')
       call s:register_ale_tool(g:ale_fixers, 'elm', 'elm-format')
-      autocmd sn FileType elm let b:ale_fix_on_save = 1
+      autocmd vimrc FileType elm let b:ale_fix_on_save = 1
     " Lua
       call s:register_ale_tool(g:ale_linters, 'lua', 'luac')
       call s:register_ale_tool(g:ale_linters, 'lua', 'luacheck')
@@ -399,7 +399,7 @@ scriptencoding "utf-8"
       call s:register_ale_tool(g:ale_linters, 'python', 'flake8')
       call s:register_ale_tool(g:ale_fixers, 'python', 'black')
       call s:register_ale_tool(g:ale_fixers, 'python', 'isort')
-      autocmd sn FileType python let b:ale_fix_on_save = 1
+      autocmd vimrc FileType python let b:ale_fix_on_save = 1
       " TODO: Requires e.g. ~/.config/flake8 for Black's line-width
       " Black-compatible isort config
       " let g:ale_python_black_options = '-l 80'
@@ -430,9 +430,9 @@ scriptencoding "utf-8"
 
   " vim-json {{{
     " Set foldmethod to syntax so we can fold json dicts and lists
-    autocmd sn FileType json setlocal foldmethod=syntax 
+    autocmd vimrc FileType json setlocal foldmethod=syntax 
     " Then automatically unfold all so we don't start at 100% folded :)
-    autocmd sn FileType json normal zR
+    autocmd vimrc FileType json normal zR
     " Don't conceal quote marks, that's fucking horrific. Who the hell would
     " choose to default to that behaviour? Do they only ever read json, never
     " write it?! Hell, even then it's still problematic!
@@ -486,7 +486,7 @@ scriptencoding "utf-8"
   " Neosnippets {{{
     let g:neosnippet#snippets_directory = expand('~/.config/nvim/neosnippets/')
     " Use actual tabstops in snippet files
-    autocmd sn FileType neosnippet setlocal noexpandtab
+    autocmd vimrc FileType neosnippet setlocal noexpandtab
   " }}}
 
   " vim-workspace {{{
@@ -552,11 +552,10 @@ scriptencoding "utf-8"
     " apparent reason
     let g:tex_flavor = 'latex'
     " Turn auto-writing on so we get more of a 'live' PDF preview
-    autocmd sn FileType tex silent! AutoSaveToggle
+    autocmd vimrc FileType tex silent! AutoSaveToggle
 
     " ncm2 integration (omnicompletion) {{{
-      augroup sn
-        autocmd!
+      augroup vimrc
         autocmd Filetype tex call ncm2#register_source({
                 \ 'name' : 'vimtex-cmds',
                 \ 'priority': 8, 
@@ -621,7 +620,7 @@ scriptencoding "utf-8"
   " }}}
 
   " NCM2 {{{
-    autocmd sn BufEnter * call ncm2#enable_for_buffer()
+    autocmd vimrc BufEnter * call ncm2#enable_for_buffer()
     " This will show the popup menu even if there's only one match (menuone),
     " prevent automatic selection (noselect) and prevent automatic text
     " injection into the current line (noinsert).
