@@ -147,6 +147,133 @@ scriptencoding "utf-8"
   call plug#end() " Adds plugins to runtimepath
 " }}}
 
+" Basic configuration ===================================== {{{
+  " Resize splits when the window is resized
+  autocmd sn VimResized * exe "normal! \<c-w>="
+
+  " Theming
+    if !empty($TMUX)
+      set termguicolors
+    endif
+    if $TERM ==# 'rxvt-unicode-256color'
+      set termguicolors
+    endif
+    " For Mosh
+    if $TERM ==# 'xterm-256color'
+      set termguicolors
+    endif
+    syntax enable
+    colorscheme gruvbox
+    let g:gruvbox_contrast_dark='hard'
+    let g:gruvbox_number_column='bg1'
+    set background=dark
+    " gruvbox cursor highlight in search fixes
+    nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
+    nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
+    nnoremap <silent> coh :call gruvbox#hls_toggle()<CR>
+
+    nnoremap * :let @/ = ""<CR>:call gruvbox#hls_show()<CR>*
+    nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
+    nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
+
+  " Search
+    set incsearch " Incremental searching
+    set hlsearch " Highlight matches by default
+    set ignorecase " Ignore case when searching
+    set smartcase " ^ unless a capital letter is typed
+
+  " Hybrid relative line numbers
+    set number
+    set relativenumber
+
+  " Indentation
+    set autoindent " Copy indent to new line
+    set shiftwidth=2 " Use 2-space autoindentation
+    set softtabstop=2
+    set tabstop=2 " Together with ^, number of spaces a <Tab> counts for
+    set expandtab " Change <Tab> into spaces automatically in insert mode and with autoindent
+    " Insert a real <Tab> with CTRL-V<Tab> while in insert mode
+
+  filetype plugin on " Load filetype.vim in runtimepath
+  filetype indent on " Load indent.vim in runtimepath
+  set backspace=indent,eol,start " Allow backspace in insert mode
+  set history=1000
+  set hidden " Buffers are not unloaded when 'abandoned' by editing a new file, only when actively quit
+  set wrap " Wrap lines...
+  set linebreak " ...visually, at convenient places
+  set list listchars=trail:·,tab:»· " Display <Tab>s and trailing spaces visually
+  " Tweak the colour of the visible tab/space characters
+  highlight Whitespace guifg=#857767
+  set foldmethod=marker " Because file-based folds are awesome
+  set scrolloff=6 " Keep 6 lines minimum above/below cursor when possible; gives context
+  set sidescrolloff=10 " Similar, but for vertical space & columns
+  set sidescroll=1 " Minimum number of columns to scroll horiznotall when moving cursor off screen
+  " Previous two only apply when `wrap` is off, something I occasionally need to do
+  set mouse="c" " Disable mouse cursor movement
+  set modeline " Support modelines in files
+  " Always keep the gutter open, constant expanding/contracting gets annoying fast
+  set signcolumn=yes
+
+  " Set netrwhist home location to prevent .netrwhist being made in
+  " .config/nvim/ -- it is data not config
+  " TODO: Fix upstream in neovim / file bug report + need standard way of
+  " getting XDG_DATA_HOME reliably
+  let g:netrw_home=$HOME . '/.local/share/nvim'
+" }}}
+
+" Advanced configuration ================================== {{{
+    " Use The Silver Searcher (ag) for search backend if available (it's
+    " real fast and respects .gitignore yo)
+    if (executable('ag'))
+      let g:ackprg = 'ag --nogroup --column'
+      set grepprg:ag\ --nogroup\ --nocolor
+    endif
+
+    " TODO: Delete old undofile automatically when vim starts
+    " TODO: Delete old backup files automatically when vim starts
+    " Both are under ~/.local/share/nvim/{undo,backup} in neovim by default
+    " Keep undo history across sessions by storing it in a file
+    set undodir=~/.local/share/nvim/undo//
+    if !empty(glob(&undodir))
+      silent call mkdir(&undodir, 'p')
+    endif
+    set backupdir=~/.local/share/nvim/backup//
+    if !empty(glob(&backupdir))
+      silent call mkdir(&backupdir, 'p')
+    endif
+    set undofile
+    set backup
+
+    " TODO: Make incremental search open all folds with matches while
+    " searching, close the newly-opened ones when done (except the one the
+    " selected match is in)
+
+    " TODO: SyntaxRange pattern-matched filetype
+    "
+    " TODO: Configure makers for automake
+
+    " File-patterns to ignore for wildcard matching on tab completion
+      set wildignore=*.o,*.obj,*~ 
+      set wildignore+=*.png,*.jpg,*.gif
+
+    " Have nvim jump to the last position when reopening a file
+    autocmd sn BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    " Exclude gitcommit type to avoid doing this in commit message editor
+    " sessions
+    autocmd sn FileType gitcommit normal! gg0
+
+    " Default to opened folds in gitcommit filetype (having them closed by
+    " default doesn't make sense in this context; only really comes up when
+    " using e.g. `git commit -v` to get the commit changes displayed)
+    autocmd sn FileType gitcommit normal zR
+
+    " Track window- and buffer-local options in sessions
+    set sessionoptions+=localoptions
+
+    " TODO when working on code inside a per-project virtualenv or nix.shell,
+    " automatically detect and use the python from the project env
+" }}}
+
 " Plugin configuration ============================== {{{
   " Lightline {{{
     let g:lightline = {
@@ -660,133 +787,4 @@ scriptencoding "utf-8"
 
   " Tagbar
   nmap <leader>m :TagbarToggle<CR>
-" }}}
-
-" Basic configuration ===================================== {{{
-  " Resize splits when the window is resized
-  au sn VimResized * exe "normal! \<c-w>="
-
-  " Theming
-    if !empty($TMUX)
-      set termguicolors
-    endif
-    if $TERM ==# 'rxvt-unicode-256color'
-      set termguicolors
-    endif
-    " For Mosh
-    if $TERM ==# 'xterm-256color'
-      set termguicolors
-    endif
-    syntax enable
-    colorscheme gruvbox
-    let g:gruvbox_contrast_dark='hard'
-    let g:gruvbox_number_column='bg1'
-    set background=dark
-    " gruvbox cursor highlight in search fixes
-    nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
-    nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
-    nnoremap <silent> coh :call gruvbox#hls_toggle()<CR>
-
-    nnoremap * :let @/ = ""<CR>:call gruvbox#hls_show()<CR>*
-    nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
-    nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
-
-  " Search
-    set incsearch " Incremental searching
-    set hlsearch " Highlight matches by default
-    set ignorecase " Ignore case when searching
-    set smartcase " ^ unless a capital letter is typed
-
-  " Hybrid relative line numbers
-    set number
-    set relativenumber
-
-  " Indentation
-    set autoindent " Copy indent to new line
-    set shiftwidth=2 " Use 2-space autoindentation
-    set softtabstop=2
-    set tabstop=2 " Together with ^, number of spaces a <Tab> counts for
-    set expandtab " Change <Tab> into spaces automatically in insert mode and with autoindent
-    " Insert a real <Tab> with CTRL-V<Tab> while in insert mode
-
-  filetype plugin on " Load filetype.vim in runtimepath
-  filetype indent on " Load indent.vim in runtimepath
-  set backspace=indent,eol,start " Allow backspace in insert mode
-  set history=1000
-  set hidden " Buffers are not unloaded when 'abandoned' by editing a new file, only when actively quit
-  set wrap " Wrap lines...
-  set linebreak " ...visually, at convenient places
-  set list listchars=trail:·,tab:»· " Display <Tab>s and trailing spaces visually
-  " Tweak the colour of the visible tab/space characters
-  highlight Whitespace guifg=#857767
-  set foldmethod=marker " Because file-based folds are awesome
-  set scrolloff=6 " Keep 6 lines minimum above/below cursor when possible; gives context
-  set sidescrolloff=10 " Similar, but for vertical space & columns
-  set sidescroll=1 " Minimum number of columns to scroll horiznotall when moving cursor off screen
-  " Previous two only apply when `wrap` is off, something I occasionally need to do
-  set mouse="c" " Disable mouse cursor movement
-  set modeline " Support modelines in files
-  " Always keep the gutter open, constant expanding/contracting gets annoying fast
-  set signcolumn=yes
-
-  " Set netrwhist home location to prevent .netrwhist being made in
-  " .config/nvim/ -- it is data not config
-  " TODO: Fix upstream in neovim / file bug report + need standard way of
-  " getting XDG_DATA_HOME reliably
-  let g:netrw_home=$HOME . '/.local/share/nvim'
-" }}}
-
-" Advanced configuration ================================== {{{
-    " Use The Silver Searcher (ag) for search backend if available (it's
-    " real fast and respects .gitignore yo)
-    if (executable('ag'))
-      let g:ackprg = 'ag --nogroup --column'
-      set grepprg:ag\ --nogroup\ --nocolor
-    endif
-
-    " TODO: Delete old undofile automatically when vim starts
-    " TODO: Delete old backup files automatically when vim starts
-    " Both are under ~/.local/share/nvim/{undo,backup} in neovim by default
-    " Keep undo history across sessions by storing it in a file
-    set undodir=~/.local/share/nvim/undo//
-    if !empty(glob(&undodir))
-      silent call mkdir(&undodir, 'p')
-    endif
-    set backupdir=~/.local/share/nvim/backup//
-    if !empty(glob(&backupdir))
-      silent call mkdir(&backupdir, 'p')
-    endif
-    set undofile
-    set backup
-
-    " TODO: Make incremental search open all folds with matches while
-    " searching, close the newly-opened ones when done (except the one the
-    " selected match is in)
-
-    " TODO: SyntaxRange pattern-matched filetype
-    "
-    " TODO: Configure makers for automake
-
-    " File-patterns to ignore for wildcard matching on tab completion
-      set wildignore=*.o,*.obj,*~ 
-      set wildignore+=*.png,*.jpg,*.gif
-
-    " Have nvim jump to the last position when reopening a file
-    if has('autocmd')
-      au sn BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-      " Exclude gitcommit type to avoid doing this in commit message editor
-      " sessions
-      au sn FileType gitcommit normal! gg0
-    endif
-
-    " Default to opened folds in gitcommit filetype (having them closed by
-    " default doesn't make sense in this context; only really comes up when
-    " using e.g. `git commit -v` to get the commit changes displayed)
-    autocmd sn FileType gitcommit normal zR
-
-    " Track window- and buffer-local options in sessions
-    set sessionoptions+=localoptions
-
-    " TODO when working on code inside a per-project virtualenv or nix.shell,
-    " automatically detect and use the python from the project env
 " }}}
