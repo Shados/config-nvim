@@ -1,4 +1,9 @@
 scriptencoding "utf-8"
+" TODO literate-programming-style vimrc by replacing vimrc with a single call
+" to an external binary that compiles the actual vimrc from some literate doc
+" format? Performance shouldn't be an issue if it's cached against e.g. git
+" rev.
+
 " Early-load settings {{{
   let mapleader = "\<Space>"
   " Define my autocmd group for later use
@@ -21,7 +26,7 @@ scriptencoding "utf-8"
   endfunction
 " }}}
 
-" Plugin functions ================================== {{{
+" Plugin functions {{{
   function! PlugUpdateRemote(info)
     if a:info.status !=# 'unchanged' || a:info.force
       UpdateRemotePlugins
@@ -35,7 +40,7 @@ scriptencoding "utf-8"
   endfunction
 " }}}
 
-" Plugins =========================================== {{{
+" Plugins {{{
   " Load locally-managed plugins
   set runtimepath+=~/.config/nvim/local/*
 
@@ -147,7 +152,7 @@ scriptencoding "utf-8"
   call plug#end() " Adds plugins to runtimepath
 " }}}
 
-" Basic configuration ===================================== {{{
+" Basic configuration {{{
   " Resize splits when the window is resized
   autocmd vimrc VimResized * exe "normal! \<c-w>="
 
@@ -221,7 +226,7 @@ scriptencoding "utf-8"
   let g:netrw_home=$HOME . '/.local/share/nvim'
 " }}}
 
-" Advanced configuration ================================== {{{
+" Advanced configuration {{{
     " Use The Silver Searcher (ag) for search backend if available (it's
     " real fast and respects .gitignore yo)
     if (executable('ag'))
@@ -274,7 +279,7 @@ scriptencoding "utf-8"
     " automatically detect and use the python from the project env
 " }}}
 
-" Plugin configuration ============================== {{{
+" Plugin configuration {{{
   " Lightline {{{
     let g:lightline = {
       \ 'colorscheme': 'gruvbox',
@@ -713,7 +718,7 @@ scriptencoding "utf-8"
   " }}}
 " }}}
 
-" Key binds/mappings ====================================== {{{
+" Key binds/mappings {{{
   " Fuck hitting shift
   map ; :
   " Just in case we actually need ;, double-tap it
