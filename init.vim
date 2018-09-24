@@ -486,7 +486,7 @@ scriptencoding "utf-8"
   " Neosnippets {{{
     let g:neosnippet#snippets_directory = expand('~/.config/nvim/neosnippets/')
     " Use actual tabstops in snippet files
-    au sn FileType neosnippet setlocal noexpandtab
+    autocmd sn FileType neosnippet setlocal noexpandtab
   " }}}
 
   " vim-workspace {{{
@@ -621,7 +621,7 @@ scriptencoding "utf-8"
   " }}}
 
   " NCM2 {{{
-    au sn BufEnter * call ncm2#enable_for_buffer()
+    autocmd sn BufEnter * call ncm2#enable_for_buffer()
     " This will show the popup menu even if there's only one match (menuone),
     " prevent automatic selection (noselect) and prevent automatic text
     " injection into the current line (noinsert).
