@@ -392,6 +392,10 @@ scriptencoding "utf-8"
     " By default, all available tools for all supported languages will be run
     " ...but explicit is better than implicit
     " TODO statically generate this from Nix system or user tooling
+    " Bash
+      call s:register_ale_tool(g:ale_linters, 'sh', 'shell')
+      call s:register_ale_tool(g:ale_linters, 'sh', 'shellcheck')
+      call s:register_ale_tool(g:ale_fixers, 'sh', 'shfmt')
     " Elm
       call s:register_ale_tool(g:ale_linters, 'elm', 'elm-make')
       call s:register_ale_tool(g:ale_fixers, 'elm', 'elm-format')
@@ -404,6 +408,8 @@ scriptencoding "utf-8"
     " Lua
       call s:register_ale_tool(g:ale_linters, 'lua', 'luac')
       call s:register_ale_tool(g:ale_linters, 'lua', 'luacheck')
+    " Nix
+      call s:register_ale_tool(g:ale_linters, 'nix', 'nix-instantiate')
     " Python
       call s:register_ale_tool(g:ale_linters, 'python', 'flake8')
       call s:register_ale_tool(g:ale_fixers, 'python', 'black')
@@ -416,8 +422,6 @@ scriptencoding "utf-8"
       let g:ale_python_auto_pipenv = 0
       " Cython linting
       call s:register_ale_tool(g:ale_linters, 'cython', 'cython')
-    " Nix
-      call s:register_ale_tool(g:ale_linters, 'nix', 'nix-instantiate')
     " VimL/vimscript
       call s:register_ale_tool(g:ale_linters, 'vim', 'vint')
   " }}}
@@ -670,6 +674,7 @@ scriptencoding "utf-8"
     call s:register_lsp_server(
       \ 'bash-language-server',
       \ ['bash-language-server', 'start'],
+      \ ['sh'],
       \ ['sh']
       \ )
     call s:register_lsp_server(
