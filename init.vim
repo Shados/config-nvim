@@ -396,6 +396,11 @@ scriptencoding "utf-8"
       call s:register_ale_tool(g:ale_linters, 'elm', 'elm-make')
       call s:register_ale_tool(g:ale_fixers, 'elm', 'elm-format')
       autocmd vimrc FileType elm let b:ale_fix_on_save = 1
+    " Go
+      call s:register_ale_tool(g:ale_fixers, 'go', 'gofmt')
+    " JSON
+      call s:register_ale_tool(g:ale_fixers, 'json', 'fixjson')
+      autocmd vimrc FileType json let b:ale_fix_on_save = 1
     " Lua
       call s:register_ale_tool(g:ale_linters, 'lua', 'luac')
       call s:register_ale_tool(g:ale_linters, 'lua', 'luacheck')
