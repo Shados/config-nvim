@@ -82,6 +82,7 @@ scriptencoding "utf-8"
     Plug 'tpope/vim-endwise' " Automatic closing of control flow blocks for most languages, eg. `end` inserted after `if` in Ruby
     Plug 'Raimondi/delimitMate' " Automatic context-sensitive closing of quotes, parenthesis, brackets, etc. and related features
     Plug 'roxma/nvim-yarp' | Plug 'ncm2/ncm2' " Autocompletion with somewhat less memory use than deoplete (less Python processes)
+    Plug 'tpope/vim-abolish' " Flexible word-variant tooling; mostly useful to me for 'coercing' between different variable-naming styles (e.g. snake_case to camelCase via `crc`)
 
     " Completion sources
       Plug 'ncm2/ncm2-bufword'
