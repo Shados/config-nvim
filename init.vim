@@ -378,12 +378,14 @@ scriptencoding "utf-8"
     let g:ale_completion_enabled = 1
 
     " Per-language, non-LSP config
-    function! s:register_ale_tool(dict, lang, tool) abort
+    function! s:register_ale_tool(dict, lang, tool, ...) abort
+      let l:linter_name = a:0 >= 1 ? a:1 : a:tool
+
       if executable(a:tool)
         if has_key(a:dict, a:lang) == 0
           let a:dict[a:lang] = []
         endif
-        call add(a:dict[a:lang], a:tool)
+        call add(a:dict[a:lang], l:linter_name)
       endif
     endfunction
 
@@ -410,7 +412,7 @@ scriptencoding "utf-8"
       call s:register_ale_tool(g:ale_linters, 'lua', 'luac')
       call s:register_ale_tool(g:ale_linters, 'lua', 'luacheck')
     " Nix
-      call s:register_ale_tool(g:ale_linters, 'nix', 'nix-instantiate')
+      call s:register_ale_tool(g:ale_linters, 'nix', 'nix-instantiate', 'nix')
     " Python
       call s:register_ale_tool(g:ale_linters, 'python', 'flake8')
       call s:register_ale_tool(g:ale_fixers, 'python', 'black')
