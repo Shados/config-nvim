@@ -421,7 +421,7 @@ scriptencoding "utf-8"
       " Black-compatible isort config
       let g:ale_python_isort_options = '--multi-line=3 --trailing-comma --force-grid-wrap=0 --combine-as --line-width=88'
       " Black-compatible flake8 config
-      let g:ale_python_flake8_options = '--max-line-length=80 --select=C,E,F,W,B,B950 --ignore=E501'
+      let g:ale_python_flake8_options = '--max-line-length=80 --select=C,E,F,W,B,B950 --ignore=E501,E203,W503'
       let g:ale_python_auto_pipenv = 0
       " Cython linting
       call s:register_ale_tool(g:ale_linters, 'cython', 'cython')
