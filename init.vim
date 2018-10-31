@@ -72,6 +72,10 @@ scriptencoding "utf-8"
     Plug 'saltstack/salt-vim'
     Plug 'elzr/vim-json' " Notably, let's you fold on json dict/lists
     Plug 'dag/vim-fish', { 'for': 'fish' }
+    " Plug 'leafo/moonscript-vim', { 'for': 'moon'}
+    " Plug 'svermeulen/nvim-moonmaker' " Only needed if doing Moonscript plugin dev, can just distribute them with the built .lua files
+    Plug '~/technotheca/artifacts/media/software/nvim-moonmaker'
+    Plug '~/technotheca/artifacts/media/software/moonscript-vim'
     Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' } " Language Server Protocol client, for (the good subset of) IDE features, in Rust (large binary but small PSS)
     " TODO make LanguageClient work with denite instead of fzf? Just swap to
     " fzf?!
@@ -151,6 +155,7 @@ scriptencoding "utf-8"
     Plug 'ryanoasis/vim-devicons' " Adds language icons to things like nerdtree and lightline
   call plug#end() " Adds plugins to runtimepath
 " }}}
+
 
 " Basic configuration {{{
   " Resize splits when the window is resized
@@ -421,8 +426,9 @@ scriptencoding "utf-8"
       " Black-compatible isort config
       let g:ale_python_isort_options = '--multi-line=3 --trailing-comma --force-grid-wrap=0 --combine-as --line-width=88'
       " Black-compatible flake8 config
-      let g:ale_python_flake8_options = '--max-line-length=80 --select=C,E,F,W,B,B950 --ignore=E501,E203,W503'
+      let g:ale_python_flake8_options = '--max-line-length=80 --select=C,E,F,W,B,B950 --ignore=E501,E203,W503 --max-complexity=10'
       let g:ale_python_auto_pipenv = 0
+      let g:ale_python_flake8_use_global = 1
       " Cython linting
       call s:register_ale_tool(g:ale_linters, 'cython', 'cython')
     " VimL/vimscript
@@ -703,6 +709,7 @@ scriptencoding "utf-8"
     " TODO: Remove from linter whitelist once
     " https://github.com/palantir/python-language-server/issues/190 is
     " resolved
+    autocmd vimrc FileType python let g:LanguageClient_diagnosticsEnable = 0
     call s:register_lsp_server(
       \ 'pyls',
       \ ['pyls', '-vv'],
