@@ -376,6 +376,11 @@ scriptencoding "utf-8"
     " off)
     autocmd vimrc TextChanged,TextChangedI * ALEResetBuffer
 
+    " Ale gutter colours
+    highlight ALEErrorSign guibg=#9d0006
+    highlight ALEWarningSign guibg=#9d0006
+    highlight ALESignColumnWithErrors guibg=#9d0006
+
     " To still make it easy to know if there is *something* in the gutter *somewhere*
     let g:ale_change_sign_column_color = 1
 
