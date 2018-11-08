@@ -432,7 +432,7 @@ scriptencoding "utf-8"
       " Black-compatible isort config
       let g:ale_python_isort_options = '--multi-line=3 --trailing-comma --force-grid-wrap=0 --combine-as --line-width=88'
       " Black-compatible flake8 config
-      let g:ale_python_flake8_options = '--max-line-length=80 --select=C,E,F,W,B,B950 --ignore=E501,E203,W503 --max-complexity=10'
+      let g:ale_python_flake8_options = '--max-line-length=80 --select=C,E,F,W,B,B950 --ignore=E501,E203,W503 --max-complexity=12'
       let g:ale_python_auto_pipenv = 0
       let g:ale_python_flake8_use_global = 1
       " Cython linting
@@ -712,16 +712,16 @@ scriptencoding "utf-8"
       \ ['hie-wrapper', '--lsp'],
       \ ['haskell']
       \ )
-    " TODO: Remove from linter whitelist once
+    " TODO: Uncomment once
     " https://github.com/palantir/python-language-server/issues/190 is
     " resolved
-    autocmd vimrc FileType python let g:LanguageClient_diagnosticsEnable = 0
-    call s:register_lsp_server(
-      \ 'pyls',
-      \ ['pyls', '-vv'],
-      \ ['python'],
-      \ ['python'],
-      \ )
+    " autocmd vimrc FileType python let g:LanguageClient_diagnosticsEnable = 0
+    " call s:register_lsp_server(
+    "   \ 'pyls',
+    "   \ ['pyls', '-vv'],
+    "   \ ['python'],
+    "   \ ['python'],
+    "   \ )
     call s:register_lsp_server(
       \ 'solargraph',
       \ ['solargraph', 'stdio'],
