@@ -58,7 +58,7 @@ scriptencoding "utf-8"
 
   " Language support and syntax highlighting
     Plug 'w0rp/ale' " Async linting
-    Plug 'keith/tmux.vim'
+    Plug 'ericpruitt/tmux.vim'
     Plug 'othree/yajs.vim' | Plug 'othree/javascript-libraries-syntax.vim'
     Plug 'gabrielelana/vim-markdown'
     Plug 'LnL7/vim-nix' " Nix syntax highlighting, error checking/linting is handled by ALE
