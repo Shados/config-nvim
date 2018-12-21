@@ -416,6 +416,7 @@ scriptencoding "utf-8"
       autocmd vimrc FileType elm let b:ale_fix_on_save = 1
     " Go
       call s:register_ale_tool(g:ale_fixers, 'go', 'gofmt')
+      autocmd vimrc FileType go let b:ale_fix_on_save = 1
     " JSON
       call s:register_ale_tool(g:ale_fixers, 'json', 'fixjson')
       autocmd vimrc FileType json let b:ale_fix_on_save = 1
@@ -439,6 +440,13 @@ scriptencoding "utf-8"
       call s:register_ale_tool(g:ale_linters, 'cython', 'cython')
     " VimL/vimscript
       call s:register_ale_tool(g:ale_linters, 'vim', 'vint')
+    " Perl
+      call s:register_ale_tool(g:ale_linters, 'perl', 'perlcritic')
+      call s:register_ale_tool(g:ale_fixers, 'perl', 'perltidy')
+      autocmd vimrc FileType perl let b:ale_fix_on_save = 1
+    " C/C++
+      call s:register_ale_tool(g:ale_fixers, 'c', 'cppcheck')
+      call s:register_ale_tool(g:ale_fixers, 'c', 'clang-tidy', 'clangtidy')
   " }}}
 
   " indentLine {{{
