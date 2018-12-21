@@ -131,7 +131,7 @@ scriptencoding "utf-8"
     Plug 'easymotion/vim-easymotion'
     Plug 'AndrewRadev/splitjoin.vim' " Allows for splitting/joining code into/from multi-line formats, gS and gJ bydefault
     Plug 'terryma/vim-multiple-cursors' " SublimeText-style multiple cursor impl., ctrl-n to start matching on current word to place
-    Plug 'tomtom/tcomment_vim' " Toggle commenting of lines with gc{motion}, also works in visual mode
+    Plug 'tpope/vim-commentary' " Toggle commenting of lines with gc{motion}, also works in visual mode
     Plug 'sjl/gundo.vim' " Allows you to visualize your undo tree in a pane opened with :GundoToggle
     Plug 'bogado/file-line' " Allows doing `vim filename:lineno`
     Plug 'vim-scripts/camelcasemotion' " ,w ,b and ,e alternate motions that support traversing CamelCase and underscore_notation
