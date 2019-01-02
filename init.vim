@@ -72,10 +72,8 @@ scriptencoding "utf-8"
     Plug 'saltstack/salt-vim'
     Plug 'elzr/vim-json' " Notably, let's you fold on json dict/lists
     Plug 'dag/vim-fish', { 'for': 'fish' }
-    " Plug 'leafo/moonscript-vim', { 'for': 'moon'}
-    " Plug 'svermeulen/nvim-moonmaker' " Only needed if doing Moonscript plugin dev, can just distribute them with the built .lua files
-    Plug '~/technotheca/artifacts/media/software/nvim-moonmaker'
-    Plug '~/technotheca/artifacts/media/software/moonscript-vim'
+    Plug 'leafo/moonscript-vim', { 'for': 'moon'}
+    Plug 'Shados/nvim-moonmaker' " Only needed if doing Moonscript plugin dev, can just distribute them with the built .lua files
     Plug 'chikamichi/mediawiki.vim'
     Plug 'peterhoeg/vim-qml'
     Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' } " Language Server Protocol client, for (the good subset of) IDE features, in Rust (large binary but small PSS)
