@@ -738,7 +738,7 @@ scriptencoding "utf-8"
       \ )
     call s:register_lsp_server(
       \ 'rls',
-      \ ['rustup', 'run', 'stable', 'rls'],
+      \ ['rustup', 'run', 'nightly', 'rls'],
       \ ['rust']
       \ )
   " }}}
