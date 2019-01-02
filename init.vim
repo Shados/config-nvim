@@ -77,6 +77,7 @@ scriptencoding "utf-8"
     Plug '~/technotheca/artifacts/media/software/nvim-moonmaker'
     Plug '~/technotheca/artifacts/media/software/moonscript-vim'
     Plug 'chikamichi/mediawiki.vim'
+    Plug 'peterhoeg/vim-qml'
     Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' } " Language Server Protocol client, for (the good subset of) IDE features, in Rust (large binary but small PSS)
     " TODO make LanguageClient work with denite instead of fzf? Just swap to
     " fzf?!
