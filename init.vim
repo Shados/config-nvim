@@ -823,4 +823,7 @@ scriptencoding "utf-8"
 
   " Tagbar
   nmap <leader>m :TagbarToggle<CR>
+
+  " Open current file in external program
+  nnoremap <Leader>o :exe ':silent !xdg-open %'<CR>
 " }}}
