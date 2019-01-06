@@ -76,35 +76,33 @@ scriptencoding "utf-8"
     Plug 'Shados/nvim-moonmaker' " Only needed if doing Moonscript plugin dev, can just distribute them with the built .lua files
     Plug 'chikamichi/mediawiki.vim'
     Plug 'peterhoeg/vim-qml'
-    Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' } " Language Server Protocol client, for (the good subset of) IDE features, in Rust (large binary but small PSS)
-    " TODO make LanguageClient work with denite instead of fzf? Just swap to
-    " fzf?!
+    " Plug '~/technotheca/artifacts/media/software/neovim/precog.nvim'
+    Plug 'prabirshrestha/vim-lsp'
 
 
   " Text/code creation & refactoring
     Plug 'Shougo/neosnippet.vim' | Plug 'Shougo/neosnippet-snippets' " Code snippets, the mighty slayer of boilerplate
     Plug 'tpope/vim-endwise' " Automatic closing of control flow blocks for most languages, eg. `end` inserted after `if` in Ruby
     Plug 'Raimondi/delimitMate' " Automatic context-sensitive closing of quotes, parenthesis, brackets, etc. and related features
-    Plug 'roxma/nvim-yarp' | Plug 'ncm2/ncm2' " Autocompletion with somewhat less memory use than deoplete (less Python processes)
+    Plug 'prabirshrestha/async.vim' | Plug 'prabirshrestha/asyncomplete.vim' " Asynchronous autocompletion in vimL
     Plug 'tpope/vim-abolish' " Flexible word-variant tooling; mostly useful to me for 'coercing' between different variable-naming styles (e.g. snake_case to camelCase via `crc`)
 
     " Completion sources
-      Plug 'ncm2/ncm2-bufword'
-      Plug 'ncm2/ncm2-path'
-      Plug 'ncm2/ncm2-tmux'
+      Plug 'prabirshrestha/asyncomplete-lsp.vim'
+      Plug 'prabirshrestha/asyncomplete-buffer.vim'
+      Plug 'prabirshrestha/asyncomplete-file.vim'
+
       if !executable('rls') && executable('racer')
-        Plug 'ncm2/ncm2-racer'
+        Plug 'keremc/asyncomplete-racer.vim'
       endif
       if executable('gocode')
         " go-langserver doesn't do completion or formatting, apparently (or
         " rather, it just uses `gocode` anyway, so might as well call it
         " directly)
-        Plug 'ncm2/ncm2-go'
+        Plug 'prabirshrestha/asyncomplete-gocode.vim'
       endif
-      Plug 'ncm2/ncm2-html-subscope'
-      Plug 'ncm2/ncm2-markdown-subscope'
       " TODO: Plug 'jsfaint/gen_tags.vim'
-      " TODO: neosnippet completion?
+      Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 
   " Project management
     Plug 'bagrat/vim-workspace' " Statusline with buffers and tabs listed very cleanly
@@ -579,64 +577,6 @@ scriptencoding "utf-8"
     let g:tex_flavor = 'latex'
     " Turn auto-writing on so we get more of a 'live' PDF preview
     autocmd vimrc FileType tex silent! AutoSaveToggle
-
-    " ncm2 integration (omnicompletion) {{{
-      augroup vimrc
-        autocmd Filetype tex call ncm2#register_source({
-                \ 'name' : 'vimtex-cmds',
-                \ 'priority': 8, 
-                \ 'complete_length': -1,
-                \ 'scope': ['tex'],
-                \ 'matcher': {'name': 'prefix', 'key': 'word'},
-                \ 'word_pattern': '\w+',
-                \ 'complete_pattern': g:vimtex#re#ncm2#cmds,
-                \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-                \ })
-        autocmd Filetype tex call ncm2#register_source({
-                \ 'name' : 'vimtex-labels',
-                \ 'priority': 8, 
-                \ 'complete_length': -1,
-                \ 'scope': ['tex'],
-                \ 'matcher': {'name': 'combine',
-                \             'matchers': [
-                \               {'name': 'substr', 'key': 'word'},
-                \               {'name': 'substr', 'key': 'menu'},
-                \             ]},
-                \ 'word_pattern': '\w+',
-                \ 'complete_pattern': g:vimtex#re#ncm2#labels,
-                \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-                \ })
-        autocmd Filetype tex call ncm2#register_source({
-                \ 'name' : 'vimtex-files',
-                \ 'priority': 8, 
-                \ 'complete_length': -1,
-                \ 'scope': ['tex'],
-                \ 'matcher': {'name': 'combine',
-                \             'matchers': [
-                \               {'name': 'abbrfuzzy', 'key': 'word'},
-                \               {'name': 'abbrfuzzy', 'key': 'abbr'},
-                \             ]},
-                \ 'word_pattern': '\w+',
-                \ 'complete_pattern': g:vimtex#re#ncm2#files,
-                \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-                \ })
-        autocmd Filetype tex call ncm2#register_source({
-                \ 'name' : 'bibtex',
-                \ 'priority': 8, 
-                \ 'complete_length': -1,
-                \ 'scope': ['tex'],
-                \ 'matcher': {'name': 'combine',
-                \             'matchers': [
-                \               {'name': 'prefix', 'key': 'word'},
-                \               {'name': 'abbrfuzzy', 'key': 'abbr'},
-                \               {'name': 'abbrfuzzy', 'key': 'menu'},
-                \             ]},
-                \ 'word_pattern': '\w+',
-                \ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
-                \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-                \ })
-      augroup END
-    " }}}
   " }}}
 
   " echodoc.vim {{{
@@ -645,41 +585,69 @@ scriptencoding "utf-8"
     set noshowmode
   " }}}
 
-  " NCM2 {{{
-    autocmd vimrc BufEnter * call ncm2#enable_for_buffer()
-    " This will show the popup menu even if there's only one match (menuone),
-    " prevent automatic selection (noselect) and prevent automatic text
-    " injection into the current line (noinsert).
-    set completeopt=noinsert,menuone,noselect
-    " When the <Enter> key is pressed while the popup menu is visible, it only
-    " hides the menu. Use this mapping to close the menu and also start a new
-    " line.
-    " inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-    " Less spammy completion
+  " asyncomplete {{{
+    let g:asyncomplete_auto_popup = 1
+    let g:asyncomplete_remove_duplicates = 1
+    let g:asyncomplete_smart_completion = 1
     set shortmess+=c
+    set completeopt+=preview " Open preview/details window
+
+    " Register sources
+    " TODO buffer source is currently fucking trash, write my own damn
+    " completion plugin
+    " call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+    "   \ 'name': 'buffer',
+    "   \ 'whitelist': ['*'],
+    "   \ 'blacklist': ['go'],
+    "   \ 'completor': function('asyncomplete#sources#buffer#completor'),
+    "   \ 'priority': 5,
+    "   \ }))
+    call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+      \ 'name': 'file',
+      \ 'whitelist': ['*'],
+      \ 'completor': function('asyncomplete#sources#file#completor'),
+      \ 'priority': 10,
+      \ }))
+    call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
+      \ 'name': 'neosnippet',
+      \ 'whitelist': ['*'],
+      \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
+      \ 'priority': 15,
+      \ }))
+    if executable('gocode')
+      call asyncomplete#register_source(asyncomplete#sources#gocode#get_source_options({
+        \ 'name': 'gocode',
+        \ 'whitelist': ['go'],
+        \ 'completor': function('asyncomplete#sources#gocode#completor'),
+        \ 'priority': 30,
+        \ }))
+    endif
+    if !executable('rls') && executable('racer')
+      call asyncomplete#register_source(asyncomplete#sources#racer#get_source_options({
+        \ }))
+    endif
   " }}}
 
-  " LanguageClient-neovim {{{
-    " Useful for debugging language server behaviour
-    let g:LanguageClient_loggingLevel = 'INFO'
-    let g:LanguageClient_loggingFile = '/tmp/LanguageClient_client.log'
-    let g:LanguageClient_serverStderr = '/tmp/LanguageClient_server.log'
-    " Path to the LSP settings file
-    let g:LanguageClient_settingsPath = expand('~/.config/nvim/lsp_settings.json')
+  " vim-lsp {{{
+    let g:lsp_signs_enabled = 1
+    let g:lsp_diagnostics_echo_cursor = 1
+    let g:lsp_log_verbose = 0
+    let g:lsp_log_file = expand('~/.local/share/vim-lsp.log')
     " Ensure these exist before setting anything in them
-    let g:LanguageClient_serverCommands = get(g:, 'LanguageClient_serverCommands', {})
     let g:ale_linters = get(g:, 'ale_linters', {})
     let g:ale_fixers = get(g:, 'ale_fixers', {})
-
-    " Helper function for registering language servers
     function! s:register_lsp_server(exec, server_info, filetypes, ...) abort
       " Handle varargs
       " let l:ale_fixer_whitelist = a:0 >= 1 ? a:1 : []
       let l:ale_linter_whitelist = a:0 >= 1 ? a:1 : []
 
       if executable(a:exec)
+        call lsp#register_server({
+          \ 'name': a:exec,
+          \ 'cmd': {server_info->a:server_info},
+          \ 'whitelist': a:filetypes,
+          \ })
         for l:ft in a:filetypes
-          let g:LanguageClient_serverCommands[l:ft] = a:server_info
           if ! snlib#list#within(l:ale_linter_whitelist, l:ft)
             let g:ale_linters[l:ft] = []
           endif
@@ -699,11 +667,11 @@ scriptencoding "utf-8"
       \ ['sh'],
       \ ['sh']
       \ )
-    call s:register_lsp_server(
-      \ 'clangd',
-      \ ['clangd'],
-      \ ['c', 'cpp', 'objc', 'objcpp']
-      \ )
+    " call s:register_lsp_server(
+    "   \ 'clangd',
+    "   \ ['clangd'],
+    "   \ ['c', 'cpp', 'objc', 'objcpp']
+    "   \ )
     call s:register_lsp_server(
       \ 'css-languageserver',
       \ ['css-languageserver', '--stdio'],
