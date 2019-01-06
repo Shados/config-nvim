@@ -1,3 +1,7 @@
+" TODO replace remaining python plugins:
+" - code-stats-vim (keeps 2x python hosts running from startup onwards)
+" - denite (only starts python host on use)
+" - gundo (only starts python host on use)
 scriptencoding "utf-8"
 " TODO literate-programming-style vimrc by replacing vimrc with a single call
 " to an external binary that compiles the actual vimrc from some literate doc
