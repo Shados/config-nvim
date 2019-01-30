@@ -167,11 +167,8 @@ scriptencoding "utf-8"
     if !empty($TMUX)
       set termguicolors
     endif
-    if $TERM ==# 'rxvt-unicode-256color'
-      set termguicolors
-    endif
-    " For Mosh
-    if $TERM ==# 'xterm-256color'
+    " The xterm-256color one is for Mosh
+    if $TERM ==# 'rxvt-unicode' || $TERM ==# 'rxvt-unicode-256color' || $TERM ==# 'xterm-256color'
       set termguicolors
     endif
     syntax enable
