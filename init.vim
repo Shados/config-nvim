@@ -165,11 +165,8 @@ scriptencoding "utf-8"
   autocmd vimrc VimResized * exe "normal! \<c-w>="
 
   " Theming
-    if !empty($TMUX)
-      set termguicolors
-    endif
-    " The xterm-256color one is for Mosh
-    if $TERM ==# 'rxvt-unicode' || $TERM ==# 'rxvt-unicode-256color' || $TERM ==# 'xterm-256color'
+    " The xterm ones are for Mosh
+    if !empty($TMUX) || $TERM ==# 'rxvt-unicode' || $TERM ==# 'rxvt-unicode-256color' || $TERM==# 'xterm' || $TERM ==# 'xterm-256color'
       set termguicolors
     endif
     syntax enable
