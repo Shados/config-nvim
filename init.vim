@@ -165,8 +165,8 @@ scriptencoding "utf-8"
   autocmd vimrc VimResized * exe "normal! \<c-w>="
 
   " Theming
-    " The xterm ones are for Mosh
-    if !empty($TMUX) || $TERM ==# 'rxvt-unicode' || $TERM ==# 'rxvt-unicode-256color' || $TERM==# 'xterm' || $TERM ==# 'xterm-256color'
+    " The xterm and screen ones are actually both for Mosh
+    if !empty($TMUX) || $TERM ==# 'rxvt-unicode' || $TERM ==# 'rxvt-unicode-256color' || $TERM==# 'xterm' || $TERM ==# 'xterm-256color' || $TERM ==# 'screen' || $TERM ==# 'screen-256color'
       set termguicolors
     endif
     syntax enable
