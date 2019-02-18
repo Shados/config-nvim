@@ -240,16 +240,25 @@ scriptencoding "utf-8"
     " TODO: Delete old backup files automatically when vim starts
     " Both are under ~/.local/share/nvim/{undo,backup} in neovim by default
     " Keep undo history across sessions by storing it in a file
-    set undodir=~/.local/share/nvim/undo//
+    set undodir=~/.local/share/nvim/undo/
     if !empty(glob(&undodir))
       silent call mkdir(&undodir, 'p')
     endif
-    set backupdir=~/.local/share/nvim/backup//
+    set backupdir=~/.local/share/nvim/backup/
     if !empty(glob(&backupdir))
       silent call mkdir(&backupdir, 'p')
     endif
     set undofile
     set backup
+    " This one creates temporary backup files, as opposed to the permanent ones from 'backup'
+    set nowritebackup
+    " Otherwise, it may decide to do all writes by first moving the written
+    " file to a temporary name, then writing out the modified files to the
+    " original name, then moving the temporary file to the backupdir. This
+    " approach generates way more filesystem events than necessary, and is
+    " likely to trigger race conditions in e.g. compiler 'watch' modes that
+    " use inotify.
+    set backupcopy=yes
 
     " TODO: Make incremental search open all folds with matches while
     " searching, close the newly-opened ones when done (except the one the
