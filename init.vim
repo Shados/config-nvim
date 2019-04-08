@@ -42,6 +42,17 @@ scriptencoding "utf-8"
       PlugUpdateRemote(info)
     endif
   endfunction
+
+  " vim-markdown-composer
+  function! BuildComposer(info)
+    if a:info.status !=# 'unchanged' || a:info.force
+      if has('nvim')
+        !cargo build --release
+      else
+        !cargo build --release --no-default-features --features json-rpc
+      endif
+    endif
+  endfunction
 " }}}
 
 " Plugins {{{
@@ -65,6 +76,7 @@ scriptencoding "utf-8"
     Plug 'ericpruitt/tmux.vim'
     Plug 'othree/yajs.vim' | Plug 'othree/javascript-libraries-syntax.vim'
     Plug 'gabrielelana/vim-markdown'
+    Plug 'euclio/vim-markdown-composer', {'do': function('BuildComposer') }
     Plug 'LnL7/vim-nix' " Nix syntax highlighting, error checking/linting is handled by ALE
     Plug 'Matt-Deacalion/vim-systemd-syntax'
     Plug 'vim-erlang/vim-erlang-runtime' | Plug 'vim-erlang/vim-erlang-compiler' | Plug 'vim-erlang/vim-erlang-omnicomplete' | Plug 'vim-erlang/vim-erlang-tags'
@@ -353,14 +365,20 @@ scriptencoding "utf-8"
   " }}}
 
   " Markdown {{{
-    " Enable syntax-based folding.
+    " Enable/disable syntax-based folding.
     " This will have negative performance impact on sufficiently large files,
     " however, and simply disabling folding in general does not stop that.
-    let g:markdown_enable_folding = 1
-    " Automatically unfold all so we don't start at 100% folded :)
-    autocmd vimrc FileType markdown normal zR
-    " Disable spellcheck (it's bad, and I'm not)
+    let g:markdown_enable_folding = 0
+
     let g:markdown_enable_spell_checking = 0
+    let g:markdown_enable_input_abbreviations = 0
+    let g:markdown_enable_conceal = 0
+
+    " Automatically unfold all
+    autocmd vimrc FileType markdown normal zR
+
+    let g:markdown_composer_autostart = 0
+
     " Set indent/tab for markdown files to 4 spaces
     autocmd vimrc FileType markdown setlocal shiftwidth=4 softtabstop=4 tabstop=4
   " }}}
