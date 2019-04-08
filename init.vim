@@ -96,7 +96,6 @@ scriptencoding "utf-8"
     Plug 'Shados/nvim-moonmaker' " Only needed if doing Moonscript plugin dev, can just distribute them with the built .lua files
     Plug 'chikamichi/mediawiki.vim'
     Plug 'peterhoeg/vim-qml'
-    " Plug '~/technotheca/artifacts/media/software/neovim/precog.nvim'
     Plug 'spamwax/tup-syntax.vim'
     Plug 'prabirshrestha/vim-lsp'
     Plug 'PProvost/vim-ps1', { 'for': 'ps1' }
@@ -114,7 +113,7 @@ scriptencoding "utf-8"
     " TODO
 
   " Project management
-    Plug 'bagrat/vim-workspace' " Statusline with buffers and tabs listed very cleanly
+    Plug 'bagrat/vim-buffet', {'commit': '044f2954a5e49aea8625973de68dda8750f1c42d'} " Statusline with buffers and tabs listed very cleanly
     Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
     Plug 'Shougo/denite.nvim', {'do': function('PlugUpdateRemote')} | Plug 'Shougo/neomru.vim' " Full path fuzzy file/buffer/mru/tag/.../arbitrary list search, bound to <leader>f (for find?)
     Plug 'vim-scripts/TaskList.vim' " Display FIXME/TODO/etc. in handy browseable list pane, bound to <Leader>t, then q to cancel, e to quit browsing but leave tasklist up, <CR> to quit and place cursor on selected task
@@ -162,7 +161,6 @@ scriptencoding "utf-8"
     Plug 'ryanoasis/vim-devicons' " Adds language icons to things like nerdtree and lightline
   call plug#end() " Adds plugins to runtimepath
 " }}}
-
 
 " Basic configuration {{{
   " Resize splits when the window is resized
