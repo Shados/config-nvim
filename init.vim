@@ -147,7 +147,7 @@ scriptencoding "utf-8"
     Plug 'goldfeld/ctrlr.vim' " Reverse search ex command history ala Bash ctrl-r
     Plug 'mhinz/vim-startify' " A fancy start screen for vim (mainly for bookmarks and session listing)
     Plug 'tyru/current-func-info.vim' " Adds a set of functions to retrieve the name of the 'current' function in a source file, for the scope the cursor is in
-    Plug 'https://gitlab.com/code-stats/code-stats-vim.git' " Slightly gamifies programming, for shits 'n' giggles
+    Plug 'Shados/codestats.nvim' " Slightly gamifies programming, for shits 'n' giggles
     Plug '907th/vim-auto-save', { 'for': 'tex' } " Buffer auto-writing, which I only want for specific project/file types
     Plug 'tpope/vim-scriptease' " A vim plugin to help with writing vim plugins; most notably :PP acts as a decent REPL
 
