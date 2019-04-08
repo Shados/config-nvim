@@ -1,5 +1,4 @@
 " TODO replace remaining python plugins:
-" - code-stats-vim (keeps 2x python hosts running from startup onwards)
 " - denite (only starts python host on use)
 " - gundo (only starts python host on use)
 scriptencoding "utf-8"
@@ -62,6 +61,11 @@ scriptencoding "utf-8"
   " We're using vim-plug for plugin management, as async updates and flexible
   " hooks are both very useful
   call plug#begin('~/.config/nvim/plugged')
+  " Libraries, shims, wrappers, and interfaces
+    Plug 'prabirshrestha/async.vim'
+    Plug 'Shados/earthshine'
+    Plug 'Shados/facade.nvim'
+
   " Appearance & UI
     Plug 'ap/vim-css-color'
     Plug 'skwp/vim-colors-solarized'
@@ -102,25 +106,12 @@ scriptencoding "utf-8"
     Plug 'Shougo/neosnippet.vim' | Plug 'Shougo/neosnippet-snippets' " Code snippets, the mighty slayer of boilerplate
     Plug 'tpope/vim-endwise' " Automatic closing of control flow blocks for most languages, eg. `end` inserted after `if` in Ruby
     Plug 'Raimondi/delimitMate' " Automatic context-sensitive closing of quotes, parenthesis, brackets, etc. and related features
-    Plug 'prabirshrestha/async.vim' | Plug 'prabirshrestha/asyncomplete.vim' " Asynchronous autocompletion in vimL
     Plug 'tpope/vim-abolish' " Flexible word-variant tooling; mostly useful to me for 'coercing' between different variable-naming styles (e.g. snake_case to camelCase via `crc`)
+    Plug 'Shados/precog.nvim'
+
 
     " Completion sources
-      Plug 'prabirshrestha/asyncomplete-lsp.vim'
-      Plug 'prabirshrestha/asyncomplete-buffer.vim'
-      Plug 'prabirshrestha/asyncomplete-file.vim'
-
-      if !executable('rls') && executable('racer')
-        Plug 'keremc/asyncomplete-racer.vim'
-      endif
-      if executable('gocode')
-        " go-langserver doesn't do completion or formatting, apparently (or
-        " rather, it just uses `gocode` anyway, so might as well call it
-        " directly)
-        Plug 'prabirshrestha/asyncomplete-gocode.vim'
-      endif
-      " TODO: Plug 'jsfaint/gen_tags.vim'
-      Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
+    " TODO
 
   " Project management
     Plug 'bagrat/vim-workspace' " Statusline with buffers and tabs listed very cleanly
@@ -612,49 +603,6 @@ scriptencoding "utf-8"
     set noshowmode
   " }}}
 
-  " asyncomplete {{{
-    let g:asyncomplete_auto_popup = 1
-    let g:asyncomplete_remove_duplicates = 1
-    let g:asyncomplete_smart_completion = 1
-    set shortmess+=c
-    set completeopt+=preview " Open preview/details window
-
-    " Register sources
-    " TODO buffer source is currently fucking trash, write my own damn
-    " completion plugin
-    " call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-    "   \ 'name': 'buffer',
-    "   \ 'whitelist': ['*'],
-    "   \ 'blacklist': ['go'],
-    "   \ 'completor': function('asyncomplete#sources#buffer#completor'),
-    "   \ 'priority': 5,
-    "   \ }))
-    call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-      \ 'name': 'file',
-      \ 'whitelist': ['*'],
-      \ 'completor': function('asyncomplete#sources#file#completor'),
-      \ 'priority': 10,
-      \ }))
-    call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
-      \ 'name': 'neosnippet',
-      \ 'whitelist': ['*'],
-      \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
-      \ 'priority': 15,
-      \ }))
-    if executable('gocode')
-      call asyncomplete#register_source(asyncomplete#sources#gocode#get_source_options({
-        \ 'name': 'gocode',
-        \ 'whitelist': ['go'],
-        \ 'completor': function('asyncomplete#sources#gocode#completor'),
-        \ 'priority': 30,
-        \ }))
-    endif
-    if !executable('rls') && executable('racer')
-      call asyncomplete#register_source(asyncomplete#sources#racer#get_source_options({
-        \ }))
-    endif
-  " }}}
-
   " vim-lsp {{{
     let g:lsp_signs_enabled = 1
     let g:lsp_diagnostics_echo_cursor = 1
@@ -734,6 +682,11 @@ scriptencoding "utf-8"
       \ ['rustup', 'run', 'nightly', 'rls'],
       \ ['rust']
       \ )
+  " }}}
+
+  " precog {{{
+    set shortmess+=c
+    set completeopt+=preview " Open preview/details window
   " }}}
 
   " General plugin config {{{
