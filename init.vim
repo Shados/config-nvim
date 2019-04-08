@@ -95,6 +95,7 @@ scriptencoding "utf-8"
     " Plug '~/technotheca/artifacts/media/software/neovim/precog.nvim'
     Plug 'spamwax/tup-syntax.vim'
     Plug 'prabirshrestha/vim-lsp'
+    Plug 'PProvost/vim-ps1', { 'for': 'ps1' }
 
 
   " Text/code creation & refactoring
