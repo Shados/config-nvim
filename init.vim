@@ -93,7 +93,9 @@ scriptencoding "utf-8"
     Plug 'elzr/vim-json' " Notably, let's you fold on json dict/lists
     Plug 'dag/vim-fish', { 'for': 'fish' }
     Plug 'leafo/moonscript-vim', { 'for': 'moon'}
-    Plug 'Shados/nvim-moonmaker' " Only needed if doing Moonscript plugin dev, can just distribute them with the built .lua files
+    if executable('moonc')
+      Plug 'Shados/nvim-moonmaker' " Only needed if doing Moonscript plugin dev, can just distribute them with the built .lua files
+    endif
     Plug 'chikamichi/mediawiki.vim'
     Plug 'peterhoeg/vim-qml'
     Plug 'spamwax/tup-syntax.vim'
