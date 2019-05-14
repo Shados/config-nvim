@@ -460,6 +460,10 @@ scriptencoding "utf-8"
     " C/C++
       call s:register_ale_tool(g:ale_fixers, 'c', 'cppcheck')
       call s:register_ale_tool(g:ale_fixers, 'c', 'clang-tidy', 'clangtidy')
+    " Rust
+      call s:register_ale_tool(g:ale_linters, 'rust', 'rls')
+      call s:register_ale_tool(g:ale_fixers, 'rust', 'rustfmt')
+      autocmd vimrc FileType rust let b:ale_fix_on_save = 1
   " }}}
 
   " indentLine {{{
