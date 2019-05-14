@@ -110,7 +110,6 @@ scriptencoding "utf-8"
     Plug 'tpope/vim-abolish' " Flexible word-variant tooling; mostly useful to me for 'coercing' between different variable-naming styles (e.g. snake_case to camelCase via `crc`)
     Plug 'Shados/precog.nvim'
 
-
     " Completion sources
     " TODO
 
@@ -132,7 +131,6 @@ scriptencoding "utf-8"
 
   " General Extra Functionality
     Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim' " Post and edit gists directly from vim
-    Plug 'skwp/vim-html-escape' " Escape text in html doc with \he, \hu to unescape
     Plug 'vim-scripts/SyntaxRange' " Set start/end tags to alter syntax highlighting between them to another type - see ~/.config/nvim/after/syntax/* files for existing tags
     " management, very cool
     Plug 'easymotion/vim-easymotion'
