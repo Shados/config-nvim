@@ -99,7 +99,7 @@ scriptencoding "utf-8"
     Plug 'chikamichi/mediawiki.vim'
     Plug 'peterhoeg/vim-qml'
     Plug 'spamwax/tup-syntax.vim'
-    Plug 'prabirshrestha/vim-lsp'
+    " Plug 'prabirshrestha/vim-lsp'
     Plug 'PProvost/vim-ps1', { 'for': 'ps1' }
 
 
@@ -601,86 +601,86 @@ scriptencoding "utf-8"
     set noshowmode
   " }}}
 
-  " vim-lsp {{{
-    let g:lsp_signs_enabled = 1
-    let g:lsp_diagnostics_echo_cursor = 1
-    let g:lsp_log_verbose = 0
-    let g:lsp_log_file = expand('~/.local/share/vim-lsp.log')
-    " Ensure these exist before setting anything in them
-    let g:ale_linters = get(g:, 'ale_linters', {})
-    let g:ale_fixers = get(g:, 'ale_fixers', {})
-    function! s:register_lsp_server(exec, server_info, filetypes, ...) abort
-      " Handle varargs
-      " let l:ale_fixer_whitelist = a:0 >= 1 ? a:1 : []
-      let l:ale_linter_whitelist = a:0 >= 1 ? a:1 : []
+  " " vim-lsp {{{
+  "   let g:lsp_signs_enabled = 1
+  "   let g:lsp_diagnostics_echo_cursor = 1
+  "   let g:lsp_log_verbose = 0
+  "   let g:lsp_log_file = expand('~/.local/share/vim-lsp.log')
+  "   " Ensure these exist before setting anything in them
+  "   let g:ale_linters = get(g:, 'ale_linters', {})
+  "   let g:ale_fixers = get(g:, 'ale_fixers', {})
+  "   function! s:register_lsp_server(exec, server_info, filetypes, ...) abort
+  "     " Handle varargs
+  "     " let l:ale_fixer_whitelist = a:0 >= 1 ? a:1 : []
+  "     let l:ale_linter_whitelist = a:0 >= 1 ? a:1 : []
 
-      if executable(a:exec)
-        call lsp#register_server({
-          \ 'name': a:exec,
-          \ 'cmd': {server_info->a:server_info},
-          \ 'whitelist': a:filetypes,
-          \ })
-        for l:ft in a:filetypes
-          if ! snlib#list#within(l:ale_linter_whitelist, l:ft)
-            let g:ale_linters[l:ft] = []
-          endif
-          " if ! snlib#list#within(l:ale_fixer_whitelist, l:ft)
-          "   let g:ale_fixers[l:ft] = []
-          " endif
-        endfor
-      endif
-    endfunction
+  "     if executable(a:exec)
+  "       call lsp#register_server({
+  "         \ 'name': a:exec,
+  "         \ 'cmd': {server_info->a:server_info},
+  "         \ 'whitelist': a:filetypes,
+  "         \ })
+  "       for l:ft in a:filetypes
+  "         if ! snlib#list#within(l:ale_linter_whitelist, l:ft)
+  "           let g:ale_linters[l:ft] = []
+  "         endif
+  "         " if ! snlib#list#within(l:ale_fixer_whitelist, l:ft)
+  "         "   let g:ale_fixers[l:ft] = []
+  "         " endif
+  "       endfor
+  "     endif
+  "   endfunction
 
-    " Register/configure Language Servers
-    " TODO configure as many as possible to use systemd socket-activated user
-    " service versions, to share resources
-    call s:register_lsp_server(
-      \ 'bash-language-server',
-      \ ['bash-language-server', 'start'],
-      \ ['sh'],
-      \ ['sh']
-      \ )
-    " call s:register_lsp_server(
-    "   \ 'clangd',
-    "   \ ['clangd'],
-    "   \ ['c', 'cpp', 'objc', 'objcpp']
-    "   \ )
-    call s:register_lsp_server(
-      \ 'css-languageserver',
-      \ ['css-languageserver', '--stdio'],
-      \ ['css', 'less', 'sass', 'scss']
-      \ )
-    call s:register_lsp_server(
-      \ 'go-langserver',
-      \ ['go-langserver', '-mode', 'stdio'],
-      \ ['go']
-      \ )
-    call s:register_lsp_server(
-      \ 'hie-wrapper',
-      \ ['hie-wrapper', '--lsp'],
-      \ ['haskell']
-      \ )
-    " TODO: Uncomment once
-    " https://github.com/palantir/python-language-server/issues/190 is
-    " resolved
-    " autocmd vimrc FileType python let g:LanguageClient_diagnosticsEnable = 0
-    " call s:register_lsp_server(
-    "   \ 'pyls',
-    "   \ ['pyls', '-vv'],
-    "   \ ['python'],
-    "   \ ['python'],
-    "   \ )
-    call s:register_lsp_server(
-      \ 'solargraph',
-      \ ['solargraph', 'stdio'],
-      \ ['ruby']
-      \ )
-    call s:register_lsp_server(
-      \ 'rls',
-      \ ['rustup', 'run', 'nightly', 'rls'],
-      \ ['rust']
-      \ )
-  " }}}
+  "   " Register/configure Language Servers
+  "   " TODO configure as many as possible to use systemd socket-activated user
+  "   " service versions, to share resources
+  "   call s:register_lsp_server(
+  "     \ 'bash-language-server',
+  "     \ ['bash-language-server', 'start'],
+  "     \ ['sh'],
+  "     \ ['sh']
+  "     \ )
+  "   " call s:register_lsp_server(
+  "   "   \ 'clangd',
+  "   "   \ ['clangd'],
+  "   "   \ ['c', 'cpp', 'objc', 'objcpp']
+  "   "   \ )
+  "   call s:register_lsp_server(
+  "     \ 'css-languageserver',
+  "     \ ['css-languageserver', '--stdio'],
+  "     \ ['css', 'less', 'sass', 'scss']
+  "     \ )
+  "   call s:register_lsp_server(
+  "     \ 'go-langserver',
+  "     \ ['go-langserver', '-mode', 'stdio'],
+  "     \ ['go']
+  "     \ )
+  "   call s:register_lsp_server(
+  "     \ 'hie-wrapper',
+  "     \ ['hie-wrapper', '--lsp'],
+  "     \ ['haskell']
+  "     \ )
+  "   " TODO: Uncomment once
+  "   " https://github.com/palantir/python-language-server/issues/190 is
+  "   " resolved
+  "   " autocmd vimrc FileType python let g:LanguageClient_diagnosticsEnable = 0
+  "   " call s:register_lsp_server(
+  "   "   \ 'pyls',
+  "   "   \ ['pyls', '-vv'],
+  "   "   \ ['python'],
+  "   "   \ ['python'],
+  "   "   \ )
+  "   call s:register_lsp_server(
+  "     \ 'solargraph',
+  "     \ ['solargraph', 'stdio'],
+  "     \ ['ruby']
+  "     \ )
+  "   call s:register_lsp_server(
+  "     \ 'rls',
+  "     \ ['rustup', 'run', 'nightly', 'rls'],
+  "     \ ['rust']
+  "     \ )
+  " " }}}
 
   " precog {{{
     set shortmess+=c
