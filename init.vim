@@ -770,4 +770,8 @@ scriptencoding "utf-8"
 
   " Open current file in external program
   nnoremap <Leader>o :exe ':silent !xdg-open %'<CR>
+
+  " Map C-j and C-k with the PUM visible to the arrows
+  inoremap <expr> <C-j> pumvisible() ? "\<Down>" : "\<C-j>"
+  inoremap <expr> <C-k> pumvisible() ? "\<Up>" : "\<C-k>"
 " }}}
